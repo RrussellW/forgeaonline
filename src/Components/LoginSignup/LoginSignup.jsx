@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import './LoginSignup.css'
 import { Paper, TextField, Button, Typography } from '@mui/material';
 import inter from '@fontsource/inter';
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const LoginSignup = () => {
     const [formData, setFormData] = useState({
@@ -45,7 +47,7 @@ const LoginSignup = () => {
         if (formData.password !== formData.confirmPassword) {
             newErrors.confirmPassword = 'Passwords do not match';
         }
-
+        
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -53,6 +55,7 @@ const LoginSignup = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
+            createUserWithEmailAndPassword(auth, formData.email, formData.password);
             console.log('Registration successful:', formData);
             alert('Registration successful!');
             // Clear form
