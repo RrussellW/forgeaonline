@@ -52,10 +52,10 @@ const LoginSignup = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            createUserWithEmailAndPassword(auth, formData.email, formData.password);
+            await createUserWithEmailAndPassword(auth, formData.email, formData.password);
             console.log('Registration successful:', formData);
             alert('Registration successful!');
             // Clear form
