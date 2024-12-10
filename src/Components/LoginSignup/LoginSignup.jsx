@@ -11,6 +11,8 @@ const cache = createCache({
     key: 'css',
     prepend: true,
 });
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const LoginSignup = () => {
     const [formData, setFormData] = useState({
@@ -53,12 +55,12 @@ const LoginSignup = () => {
         if (formData.password !== formData.confirmPassword) {
             newErrors.confirmPassword = 'Passwords do not match';
         }
-
+        
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
             console.log('Registration successful:', formData);
