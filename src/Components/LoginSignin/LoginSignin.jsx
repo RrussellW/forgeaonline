@@ -12,7 +12,7 @@ const cache = createCache({
     prepend: true,
 });
 
-const LoginSignup = () => {
+const LoginSignin = () => {
     const [formData, setFormData] = useState({
         studentId: '',
         email: '',
@@ -120,4 +120,4 @@ const LoginSignup = () => {
     );
 };
 
-export default LoginSignup;
+export default LoginSignin;

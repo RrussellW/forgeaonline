@@ -1,0 +1,55 @@
+/* LoginSignup.css */
+
+/* Paper container styles */
+.paperContainer {
+    margin-top: 50px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography styles */
+.typographyHeader {
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+/* Input fields styles */
+.inputField {
+    margin-bottom: 15px;
+}
+
+/* TextField input styles */
+.textFieldRoot .MuiFilledInput-root {
+    border-radius: 12px; /* Rounded corners for input */
+}
+
+.textFieldRoot .MuiFilledInput-root:before,
+.textFieldRoot .MuiFilledInput-root:hover:before,
+.textFieldRoot .MuiFilledInput-root.Mui-focused:before {
+    border-bottom: none; /* Remove underline on focus, hover, or default */
+}
+
+/* Button styles */
+.button {
+    background-color: #444444; /* Custom background color */
+    padding: 12px 32px;
+    border-radius: 12px;
+    text-transform: none; /* Keeps text in sentence case */
+    margin-bottom: 12px;
+}
+
+.button:hover {
+    background-color: #333333; /* Custom hover color */
+}
+
+.signIn {
+    font-size: small;
+}

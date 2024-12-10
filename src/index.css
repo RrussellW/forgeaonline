@@ -11,6 +11,9 @@ body {
 html {
   height: 100vh;
   background-image: linear-gradient(#F8F1AD, #EDACA3, #E199C8, #B78FD6);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 code {
