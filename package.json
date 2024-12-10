@@ -8,6 +8,7 @@
     "@fontsource/inter": "^5.1.0",
     "@mui/material": "^6.1.10",
     "cra-template": "1.2.0",
+    "firebase": "^11.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1",
