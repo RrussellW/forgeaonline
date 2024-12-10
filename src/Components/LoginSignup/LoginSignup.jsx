@@ -5,14 +5,15 @@ import { Paper, TextField, Button, Typography } from '@mui/material';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { Link } from 'react-router-dom';
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 
 const cache = createCache({
     key: 'css',
     prepend: true,
 });
-import { auth } from "../../firebase";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+
 
 const LoginSignup = () => {
     const [formData, setFormData] = useState({
