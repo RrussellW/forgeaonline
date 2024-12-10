@@ -1,6 +1,6 @@
 // Import React and necessary hooks
 import React, { useState } from 'react';
-import './LoginSignup.css';
+import './LoginSignin.css';
 import { Paper, TextField, Button, Typography } from '@mui/material';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
@@ -72,7 +72,7 @@ const LoginSignup = () => {
         <CacheProvider value={cache}>
             <Paper elevation={24} className="paperContainer">
                 <Typography variant="h5" className="typographyHeader">
-                    Create an Account
+                    Forgea Login
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <div className="inputField">
@@ -91,20 +91,6 @@ const LoginSignup = () => {
                     <div className="inputField">
                         <TextField
                             variant="filled"
-                            label="Email"
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            fullWidth
-                            error={!!errors.email}
-                            helperText={errors.email}
-                            className="textFieldRoot"
-                        />
-                    </div>
-                    <div className="inputField">
-                        <TextField
-                            variant="filled"
                             label="Password"
                             name="password"
                             type="password"
@@ -116,32 +102,17 @@ const LoginSignup = () => {
                             className="textFieldRoot"
                         />
                     </div>
-                    <div className="inputField">
-                        <TextField
-                            color="primary"
-                            variant="filled"
-                            label="Confirm Password"
-                            name="confirmPassword"
-                            type="password"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            fullWidth
-                            error={!!errors.confirmPassword}
-                            helperText={errors.confirmPassword}
-                            className="textFieldRoot"
-                        />
-                    </div>
                     <Button
                         type="submit"
                         variant="contained"
                         className="button"
                     >
-                        Sign Up
+                        Sign In
                     </Button>
                 </form>
                 <div className='signIn'>
-                    <Link to="/" className='signIn'>
-                        Already have an account? Sign In
+                    <Link to="/signup" className='signIn'>
+                        Don't have an account? Sign Up
                     </Link>
                 </div>
             </Paper>
