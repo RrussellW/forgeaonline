@@ -4,8 +4,8 @@ import './LoginSignin.css';
 import { Paper, TextField, Button, Typography } from '@mui/material';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const cache = createCache({
     key: 'css',
@@ -14,13 +14,13 @@ const cache = createCache({
 
 const LoginSignin = () => {
     const [formData, setFormData] = useState({
-        studentId: '',
         email: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
     });
 
     const [errors, setErrors] = useState({});
+    const [firebaseError, setFirebaseError] = useState(null);
+    const navigate = useNavigate(); // For redirecting on successful login
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,14 +29,7 @@ const LoginSignin = () => {
 
     const validateForm = () => {
         const newErrors = {};
-
-        // Validate Student ID
-        if (!formData.studentId) {
-            newErrors.studentId = 'Student ID is required';
-        } else if (!/^\d{2}-\d{4}-\d{3}$/.test(formData.studentId)) {
-            newErrors.studentId = 'Invalid Student ID format (e.g., 21-1476-291)';
-        }
-
+        
         // Validate Email
         if (!formData.email) {
             newErrors.email = 'Email is required';
@@ -49,22 +42,30 @@ const LoginSignin = () => {
             newErrors.password = 'Password is required';
         }
 
-        // Validate Confirm Password
-        if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = 'Passwords do not match';
-        }
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
         if (validateForm()) {
-            console.log('Registration successful:', formData);
-            alert('Registration successful!');
-            // Clear form
-            setFormData({ studentId: '', email: '', password: '', confirmPassword: '' });
+            const auth = getAuth();
+            signInWithEmailAndPassword(auth, formData.email, formData.password)
+                .then(() => {
+                    console.log('Login successful');
+                    navigate('/test1'); // Redirect to the dashboard or another page
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    if (errorCode === 'auth/wrong-password') {
+                        setFirebaseError('Incorrect password');
+                    } else if (errorCode === 'auth/user-not-found') {
+                        setFirebaseError('No user found with this email');
+                    } else {
+                        setFirebaseError('Login failed, please try again');
+                    }
+                });
         }
     };
 
@@ -78,13 +79,14 @@ const LoginSignin = () => {
                     <div className="inputField">
                         <TextField
                             variant="filled"
-                            label="Student ID"
-                            name="studentId"
-                            value={formData.studentId}
+                            label="Email"
+                            name="email"
+                            type="email"
+                            value={formData.email}
                             onChange={handleChange}
                             fullWidth
-                            error={!!errors.studentId}
-                            helperText={errors.studentId}
+                            error={!!errors.email}
+                            helperText={errors.email}
                             className="textFieldRoot"
                         />
                     </div>
@@ -102,6 +104,11 @@ const LoginSignin = () => {
                             className="textFieldRoot"
                         />
                     </div>
+                    {firebaseError && (
+                        <Typography color="error" className="firebaseError">
+                            {firebaseError}
+                        </Typography>
+                    )}
                     <Button
                         type="submit"
                         variant="contained"
