@@ -7,6 +7,8 @@ import { CacheProvider } from '@emotion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { db } from '../../firebase';
+import { doc, setDoc, getDoc, collection, query, where, getDocs  } from "firebase/firestore"; 
 
 const cache = createCache({
     key: 'css',
@@ -62,24 +64,39 @@ const LoginSignup = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    //Firebase Stuff
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            try{
-                await createUserWithEmailAndPassword(auth,formData.email,formData.password);
-                
-            } catch (err) {
-                
-                if(err.code === "auth/email-already-in-use") {
-                    alert("Email Already in Use");
-                } else
+            const data = {
+                email: formData.email,
+                id: formData.studentId,
+                personalitySumamry: 'None'
+              };
+            const docRef = doc(db, "Dataset", formData.email);
+            const docSnap = await getDoc(docRef);
 
-                if(err.code === "auth/invalid-email") {
-                    alert("Invalid Email");
-                } else {
+            if(docSnap.exists()) {
+                alert("Email Already in Use");
+                return;
+            }
+            //alert(docSnap.data().id);
+            try{
+            const q = query(collection(db, "Dataset"), where("id", "==", formData.studentId));
+            const querySnapshot = await getDocs(q);
+            if(querySnapshot.empty){
+                try{
+                    await setDoc(doc(db, "Dataset", data.email), data);
+                    await createUserWithEmailAndPassword(auth,formData.email,formData.password);
+                } catch (err) {
                     alert(err.message);
                 }
-                console.error(err);
+            } else {
+                alert("ID Number is already linked to an email");
+                return;
+            }
+            } catch (error) {
+                alert(error);
                 return;
             }
 
