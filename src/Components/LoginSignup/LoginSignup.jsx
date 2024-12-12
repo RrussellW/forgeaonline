@@ -68,44 +68,44 @@ const LoginSignup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            const data = {
-                email: formData.email,
-                id: formData.studentId,
-                personalitySumamry: 'None'
-              };
-            const docRef = doc(db, "Dataset", formData.email);
-            const docSnap = await getDoc(docRef);
-
-            if(docSnap.exists()) {
-                alert("Email Already in Use");
-                return;
-            }
-            //alert(docSnap.data().id);
-            try{
-            const q = query(collection(db, "Dataset"), where("id", "==", formData.studentId));
-            const querySnapshot = await getDocs(q);
-            if(querySnapshot.empty){
-                try{
-                    await setDoc(doc(db, "Dataset", data.email), data);
-                    await createUserWithEmailAndPassword(auth,formData.email,formData.password);
-                } catch (err) {
-                    alert(err.message);
+            try {
+                // Check if email already exists in Firestore
+                const docRef = doc(db, "Dataset", formData.email);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    alert("Email already in use");
+                    return;
                 }
-            } else {
-                alert("ID Number is already linked to an email");
-                return;
-            }
-            } catch (error) {
-                alert(error);
-                return;
-            }
-
-            setFormData({ studentId: '', email: '', password: '', confirmPassword: '' });
+    
+                // Check if student ID is already linked to another email
+                const q = query(collection(db, "Dataset"), where("id", "==", formData.studentId));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    alert("ID Number is already linked to an email");
+                    return;
+                }
+    
+                // Create the user in Firebase Authentication
+                await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+    
+                // Add user data to Firestore
+                const data = {
+                    email: formData.email,
+                    id: formData.studentId,
+                    personalitySummary: 'None'
+                };
+                await setDoc(doc(db, "Dataset", data.email), data);
+    
+                // Reset form and navigate
+                setFormData({ studentId: '', email: '', password: '', confirmPassword: '' });
                 console.log('Registration successful:', formData);
                 alert('Registration successful!');
                 navigate('/');
+            } catch (error) {
+                alert(error.message);
+            }
         }
-    };
+    };    
 
     return (
         <CacheProvider value={cache}>
