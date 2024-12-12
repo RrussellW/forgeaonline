@@ -4,15 +4,17 @@ import './LoginSignup.css';
 import { Paper, TextField, Button, Typography } from '@mui/material';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-
+import { db } from '../../firebase';
+import { doc, setDoc, getDoc, collection, query, where, getDocs  } from "firebase/firestore"; 
 
 const cache = createCache({
     key: 'css',
     prepend: true,
 });
+
 
 
 const LoginSignup = () => {
@@ -24,6 +26,7 @@ const LoginSignup = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -61,13 +64,46 @@ const LoginSignup = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    //Firebase Stuff
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log('Registration successful:', formData);
-            alert('Registration successful!');
-            // Clear form
+            const data = {
+                email: formData.email,
+                id: formData.studentId,
+                personalitySumamry: 'None'
+              };
+            const docRef = doc(db, "Dataset", formData.email);
+            const docSnap = await getDoc(docRef);
+
+            if(docSnap.exists()) {
+                alert("Email Already in Use");
+                return;
+            }
+            //alert(docSnap.data().id);
+            try{
+            const q = query(collection(db, "Dataset"), where("id", "==", formData.studentId));
+            const querySnapshot = await getDocs(q);
+            if(querySnapshot.empty){
+                try{
+                    await setDoc(doc(db, "Dataset", data.email), data);
+                    await createUserWithEmailAndPassword(auth,formData.email,formData.password);
+                } catch (err) {
+                    alert(err.message);
+                }
+            } else {
+                alert("ID Number is already linked to an email");
+                return;
+            }
+            } catch (error) {
+                alert(error);
+                return;
+            }
+
             setFormData({ studentId: '', email: '', password: '', confirmPassword: '' });
+                console.log('Registration successful:', formData);
+                alert('Registration successful!');
+                navigate('/');
         }
     };
 

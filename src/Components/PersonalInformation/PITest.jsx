@@ -25,12 +25,21 @@ const PITest = () => {
 
     const handleChange = (e, index, field) => {
         const { value } = e.target;
-        const updatedSubjects = [...formData.subjects];
-        updatedSubjects[index][field] = value; // Update the specific field
-        setFormData({ ...formData, subjects: updatedSubjects });
+
+        // If it's a subject field (grade or units)
+        if (index !== undefined) {
+            const updatedSubjects = [...formData.subjects];
+            if (updatedSubjects[index]) {
+                updatedSubjects[index][field] = value; // Update the specific field
+                setFormData({ ...formData, subjects: updatedSubjects });
+            }
+        } else {
+            // If it's a major or yearLevel field
+            setFormData({
+                ...formData, [e.target.name]: value // Update major or yearLevel
+            });
+        }
     };
-    
-    
 
     const calculateGWA = () => {
         let totalUnits = 0;
@@ -54,16 +63,21 @@ const PITest = () => {
         if (!formData.yearLevel) newErrors.yearLevel = 'Please select your year level';
 
         formData.subjects.forEach((subject, index) => {
-            if (!subject.grade) newErrors[`subject_${index}_grade`] = `Grade for Subject #${index + 1} is required`;
-            if (!subject.units) newErrors[`subject_${index}_units`] = `Units for Subject #${index + 1} are required`;
+            if (!subject.grade) newErrors[`subject_${index}_grade`] = `Grade is required`;
+            if (!subject.units) newErrors[`subject_${index}_units`] = `Units are required`;
         });
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = () => {
-        // Calculate the GWA here based on formData
+    const handleSubmit = (e) => {
+        e.preventDefault();  // Prevent form submission
+    
+        if (!validateForm()) {
+            return;  // Don't proceed if validation fails
+        }
+    
         let totalUnits = 0;
         let totalGradeUnits = 0;
     
@@ -75,9 +89,13 @@ const PITest = () => {
         });
     
         const gwa = totalGradeUnits / totalUnits;  // GWA formula
-    
-        // You can save this result to Firebase or handle it as needed
         console.log('Calculated GWA:', gwa);
+        console.log('Major:', formData.major);
+        console.log('Year Level:', formData.yearLevel);
+        console.log('Subjects:', formData.subjects);
+        console.log('GWA:', gwa);
+    
+        // Save data or proceed with next steps
     };
     
 
@@ -89,9 +107,11 @@ const PITest = () => {
     };
 
     const removeSubject = (index) => {
-        const newSubjects = [...formData.subjects];
-        newSubjects.splice(index, 1);
-        setFormData({ ...formData, subjects: newSubjects });
+        if (formData.subjects.length > 1) {  // Avoid removing the last subject
+            const newSubjects = [...formData.subjects];
+            newSubjects.splice(index, 1);
+            setFormData({ ...formData, subjects: newSubjects });
+        }
     };
 
     return (
@@ -100,42 +120,50 @@ const PITest = () => {
                 <Typography variant="h5" className="typographyHeader">
                     Personal Information Test
                 </Typography>
+                <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                    Please provide your student information. Your selected major and year level help to categorize and tailor the results for students in different fields of study and academic stages.
+                </Typography>
+
                 <form onSubmit={handleSubmit}>
                     <div className="inputField">
-                        <FormControl fullWidth variant="filled">
+                        <FormControl fullWidth variant="filled" className="textFieldRoot">
                             <InputLabel>Major</InputLabel>
                             <Select
                                 label="Major"
                                 name="major"
                                 value={formData.major}
-                                onChange={handleChange}
-                                error={!!errors.major}
+                                onChange={(e) => handleChange(e)}
                             >
                                 <MenuItem value="CS">Computer Science</MenuItem>
                                 <MenuItem value="IT">Information Technology</MenuItem>
                             </Select>
+                            {errors.major && <Typography color="error" variant="caption">{errors.major}</Typography>}
                         </FormControl>
                     </div>
 
                     <div className="inputField">
-                        <FormControl fullWidth variant="filled">
+                        <FormControl fullWidth variant="filled" className="textFieldRoot">
                             <InputLabel>Year Level</InputLabel>
                             <Select
                                 label="Year Level"
                                 name="yearLevel"
                                 value={formData.yearLevel}
-                                onChange={handleChange}
-                                error={!!errors.yearLevel}
+                                onChange={(e) => handleChange(e)}
                             >
                                 <MenuItem value="1">1st Year</MenuItem>
                                 <MenuItem value="2">2nd Year</MenuItem>
                                 <MenuItem value="3">3rd Year</MenuItem>
                                 <MenuItem value="4">4th Year</MenuItem>
                             </Select>
+                            {errors.yearLevel && <Typography color="error" variant="caption">{errors.yearLevel}</Typography>}
                         </FormControl>
                     </div>
 
                     <Typography variant="h6">GWA Calculation</Typography>
+                    <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                        Please input your grades from your major classes and its number of units. GWA will be automatically calculated.
+                    </Typography>
+
                     {
                         formData.subjects.map((subject, index) => (
                             <div
@@ -149,7 +177,10 @@ const PITest = () => {
                                     name={`subject_${index}_grade`}
                                     value={subject.grade ?? ''} // Fallback to an empty string if undefined
                                     onChange={(e) => handleChange(e, index, 'grade')}
+                                    className="textFieldRoot"
                                     fullWidth
+                                    error={!!errors[`subject_${index}_grade`]}
+                                    helperText={errors[`subject_${index}_grade`]}
                                 />
                                 <TextField
                                     variant="filled"
@@ -157,29 +188,45 @@ const PITest = () => {
                                     name={`subject_${index}_units`}
                                     value={subject.units ?? ''} // Fallback to an empty string if undefined
                                     onChange={(e) => handleChange(e, index, 'units')}
+                                    className="textFieldRoot"
                                     fullWidth
+                                    error={!!errors[`subject_${index}_units`]}
+                                    helperText={errors[`subject_${index}_units`]}
                                 />
                                 <Button
                                     variant="contained"
-                                    color="secondary"
+                                    color="#333333"
                                     onClick={() => removeSubject(index)}
-                                    style={{ height: 'fit-content' }}
+                                    className='remove'
                                 >
-                                    Remove
+                                    -
                                 </Button>
                             </div>
                         ))
                     }
 
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
-                        <Button onClick={addSubject} variant="contained" color="primary">
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', margin: '1rem 0' }}>
+                        <Button
+                            onClick={addSubject}
+                            variant="contained"
+                            sx={{
+                                backgroundColor: '#B78FD6',
+                                color: 'white',
+                                textTransform: 'none', // Prevents text from being uppercase
+                                '&:hover': {
+                                    backgroundColor: '#9A6ABF', // Hover color
+                                },
+                                '&:active': {
+                                    backgroundColor: '#7A4D98', // Active (clicked) color
+                                },
+                            }}
+                        >
                             Add Subject
                         </Button>
-                        <Button type="submit" variant="contained" className="button">
-                            NEXT
-                        </Button>
                     </div>
+                    <Button type="submit" variant="contained" className="button">
+                        Next
+                    </Button>
                 </form>
             </Paper>
         </CacheProvider>
