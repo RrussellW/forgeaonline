@@ -4,15 +4,15 @@ import './LoginSignup.css';
 import { Paper, TextField, Button, Typography } from '@mui/material';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-
 
 const cache = createCache({
     key: 'css',
     prepend: true,
 });
+
 
 
 const LoginSignup = () => {
@@ -24,6 +24,7 @@ const LoginSignup = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -64,10 +65,28 @@ const LoginSignup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log('Registration successful:', formData);
-            alert('Registration successful!');
-            // Clear form
+            try{
+                await createUserWithEmailAndPassword(auth,formData.email,formData.password);
+                
+            } catch (err) {
+                
+                if(err.code === "auth/email-already-in-use") {
+                    alert("Email Already in Use");
+                } else
+
+                if(err.code === "auth/invalid-email") {
+                    alert("Invalid Email");
+                } else {
+                    alert(err.message);
+                }
+                console.error(err);
+                return;
+            }
+
             setFormData({ studentId: '', email: '', password: '', confirmPassword: '' });
+                console.log('Registration successful:', formData);
+                alert('Registration successful!');
+                navigate('/');
         }
     };
 
