@@ -1,0 +1,171 @@
+/* Assessment container styles */
+.assessment-container {
+    margin-top: 50px;
+    max-width: 635px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    backdrop-filter: blur(10px); /* Adds a blurred background effect */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+/* Typography styles for question and question number */
+.question-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #444; /* Dark grey color for better visibility */
+}
+
+.question {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+/* Answers section styles */
+.answers {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+/* Label styles for Agree and Disagree */
+.label-left,
+.label-right {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.label-left {
+    margin-right: 0px; /* Space between button and Agree label */
+}
+
+.label-right {
+    margin-left: 0px; /* Space between button and Disagree label */
+}
+
+/* Container for buttons */
+.button-container {
+    display: flex;
+    justify-content: center; /* Center the buttons */
+    align-items: center;
+}
+
+/* Styling for the circular buttons with varying sizes */
+.button-7 {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    border: 2px solid #388e3c; /* Green for Agree */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-6 {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    border: 2px solid #388e3c; /* Green for Agree */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-5 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    border: 2px solid #388e3c; /* Green for Agree */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-center {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    border: 2px solid #fbc02d; /* Yellow for Neutral */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-3 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    border: 2px solid #d32f2f; /* Red for Disagree */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-2 {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    border: 2px solid #d32f2f; /* Red for Disagree */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-1 {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 0 10px;
+    background-color: transparent;
+    border: 2px solid #d32f2f; /* Red for Disagree */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for the buttons */
+button:hover {
+    background-color: #ccc; /* Fill with color when hovered */
+    color: white; /* Change text color to white */
+}
+
+/* Button press effect */
+button:active {
+    transform: scale(0.95); /* Slight scale down on button press */
+}
+
+/* Responsive styling for smaller devices */
+@media (max-width: 600px) {
+    .assessment-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .question {
+        font-size: 16px;
+    }
+
+    /* Ensuring buttons fill width on mobile */
+    .answers button {
+        width: 100%; /* Full-width buttons on mobile */
+    }
+}
