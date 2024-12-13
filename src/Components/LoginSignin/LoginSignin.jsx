@@ -6,6 +6,8 @@ import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firestore";
+import { db } from '../../firebase';
 
 const cache = createCache({
     key: 'css',
@@ -52,7 +54,21 @@ const LoginSignin = () => {
         if (validateForm()) {
             const auth = getAuth();
             signInWithEmailAndPassword(auth, formData.email, formData.password)
-                .then(() => {
+                .then(async() => {
+                    const q = query(collection(db, "Users"), where("email", "==", formData.email));
+                    const querySnapshot = await getDocs(q);
+                    if (querySnapshot.empty) {
+                        const dataMobile = {
+                            email: formData.email,
+                            percentD: 0,
+                            percentI: 0,
+                            percentS: 0,
+                            percentW: 0,
+                            personalitySummary: 'NONE',
+                            type: 1,
+                        };
+                    await setDoc(doc(db, "Users", formData.email), dataMobile, {merge: true});
+                    }
                     console.log('Login successful');
                     navigate('/PersonalInfo'); // Redirect to the dashboard or another page
                 })
