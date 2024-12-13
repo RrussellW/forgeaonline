@@ -66,85 +66,85 @@
 
 /* Styling for the circular buttons with varying sizes */
 .button-7 {
-    width: 70px;
-    height: 70px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     margin: 0 10px;
-    background-color: transparent;
-    border: 2px solid #388e3c; /* Green for Agree */
+    background-color: #F8F1AD;
+    border: 1px solid black; /* Green for Agree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .button-6 {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin: 0 10px;
-    background-color: transparent;
-    border: 2px solid #388e3c; /* Green for Agree */
+    background-color: #F2CEA8;
+    border: 1px solid black; /* Green for Agree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .button-5 {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin: 0 10px;
-    background-color: transparent;
-    border: 2px solid #388e3c; /* Green for Agree */
+    background-color: #EDACA3;
+    border: 1px solid black; /* Green for Agree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .button-center {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     margin: 0 10px;
-    background-color: transparent;
-    border: 2px solid #fbc02d; /* Yellow for Neutral */
+    background-color: #E79EB1;
+    border: 1px solid black; /* Yellow for Neutral */
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .button-3 {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin: 0 10px;
-    background-color: transparent;
-    border: 2px solid #d32f2f; /* Red for Disagree */
+    background-color: #E199C8;
+    border: 1px solid black; /* Red for Disagree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .button-2 {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin: 0 10px;
-    background-color: transparent;
-    border: 2px solid #d32f2f; /* Red for Disagree */
+    background-color: #D894DC;
+    border: 1px solid black; /* Red for Disagree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.button-1 {
-    width: 70px;
-    height: 70px;
+.button-1 { 
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     margin: 0 10px;
-    background-color: transparent;
-    border: 2px solid #d32f2f; /* Red for Disagree */
+    background-color: #B78FD6;
+    border: 1px solid black; /* Red for Disagree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 /* Hover effect for the buttons */
 button:hover {
-    background-color: #ccc; /* Fill with color when hovered */
+    background-color: #ad8b94; /* Fill with color when hovered */
     color: white; /* Change text color to white */
 }
 
