@@ -18,6 +18,7 @@ const cache = createCache({
 
 
 const LoginSignup = () => {
+    const [disabled, setDisabled] = useState(false);
     const [formData, setFormData] = useState({
         studentId: '',
         email: '',
@@ -59,6 +60,12 @@ const LoginSignup = () => {
         if (formData.password !== formData.confirmPassword) {
             newErrors.confirmPassword = 'Passwords do not match';
         }
+
+        try {
+
+        } catch (error) {
+            alert(error.message);
+        }
         
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -66,22 +73,35 @@ const LoginSignup = () => {
 
     //Firebase Stuff
     const handleSubmit = async (e) => {
+        const newErrors = {};
+        let hasError = false;
         e.preventDefault();
         if (validateForm()) {
             try {
+                setDisabled(true);
                 // Check if email already exists in Firestore
                 const docRef = doc(db, "Dataset", formData.email);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    alert("Email already in use");
-                    return;
+                    //alert("Email already in use");
+                    newErrors.email = 'Email already in use';
+                    
+                    hasError = true;
+                    setDisabled(false);
                 }
     
                 // Check if student ID is already linked to another email
                 const q = query(collection(db, "Dataset"), where("id", "==", formData.studentId));
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {
-                    alert("ID Number is already linked to an email");
+                    //alert("ID Number is already linked to an email");
+                    newErrors.studentId = 'ID Number is already linked to an email';
+                    hasError = true;
+                    setDisabled(false);
+                }
+
+                if(hasError) {
+                    setErrors(newErrors);
                     return;
                 }
     
@@ -98,12 +118,18 @@ const LoginSignup = () => {
                 await setDoc(doc(db, "Dataset", data.email), data);
     
                 // Reset form and navigate
+                setDisabled(false);
                 setFormData({ studentId: '', email: '', password: '', confirmPassword: '' });
                 console.log('Registration successful:', formData);
                 alert('Registration successful!');
                 navigate('/');
             } catch (error) {
-                alert(error.message);
+                if(error.code === 'auth/weak-password') {
+                    newErrors.password = 'Weak password. Password should be at least 6 characters';
+                }
+                setDisabled(false);
+                setErrors(newErrors);
+                //alert(error.message);
             }
         }
     };    
@@ -175,6 +201,7 @@ const LoginSignup = () => {
                         type="submit"
                         variant="contained"
                         className="button"
+                        disabled={disabled}
                     >
                         Sign Up
                     </Button>

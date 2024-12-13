@@ -15,6 +15,7 @@ const cache = createCache({
 });
 
 const LoginSignin = () => {
+    const [disabled, setDisabled] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -35,13 +36,16 @@ const LoginSignin = () => {
         // Validate Email
         if (!formData.email) {
             newErrors.email = 'Email is required';
+            setDisabled(false);
         } else if (!/^[\w-.]+@[\w-]+\.[a-z]{2,4}$/i.test(formData.email)) {
             newErrors.email = 'Invalid email format';
+            setDisabled(false);
         }
 
         // Validate Password
         if (!formData.password) {
             newErrors.password = 'Password is required';
+            setDisabled(false);
         }
 
         setErrors(newErrors);
@@ -49,8 +53,10 @@ const LoginSignin = () => {
     };
 
     const handleSubmit = (e) => {
+        const newErrors = {};
+        setFirebaseError(null)
         e.preventDefault();
-        
+        setDisabled(true);
         if (validateForm()) {
             const auth = getAuth();
             signInWithEmailAndPassword(auth, formData.email, formData.password)
@@ -70,15 +76,22 @@ const LoginSignin = () => {
                     await setDoc(doc(db, "Users", formData.email), dataMobile, {merge: true});
                     }
                     console.log('Login successful');
+                    setDisabled(false);
                     navigate('/PersonalInfo'); // Redirect to the dashboard or another page
                 })
                 .catch((error) => {
+                    setDisabled(false);
                     const errorCode = error.code;
                     if (errorCode === 'auth/wrong-password') {
                         setFirebaseError('Incorrect password');
                     } else if (errorCode === 'auth/user-not-found') {
                         setFirebaseError('No user found with this email');
+                    } else if (errorCode === 'auth/invalid-credential') {
+                        newErrors.password = 'Invalid credentials, check email or password';
+                        setErrors(newErrors);
+                        //setFirebaseError('Invalid credentials');
                     } else {
+                        //alert(error.code)
                         setFirebaseError('Login failed, please try again');
                     }
                 });
@@ -129,6 +142,7 @@ const LoginSignin = () => {
                         type="submit"
                         variant="contained"
                         className="button"
+                        disabled={disabled}
                     >
                         Sign In
                     </Button>
