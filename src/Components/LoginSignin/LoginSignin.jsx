@@ -54,7 +54,7 @@ const LoginSignin = () => {
             signInWithEmailAndPassword(auth, formData.email, formData.password)
                 .then(() => {
                     console.log('Login successful');
-                    navigate('/test1'); // Redirect to the dashboard or another page
+                    navigate('/PersonalInfo'); // Redirect to the dashboard or another page
                 })
                 .catch((error) => {
                     const errorCode = error.code;

@@ -3,6 +3,9 @@ import './PITest.css';
 import { Paper, TextField, Button, Typography, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
+import { auth, db } from '../../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
 
 const cache = createCache({
     key: 'css',
@@ -10,6 +13,7 @@ const cache = createCache({
 });
 
 const PITest = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         major: '',
         yearLevel: '',
@@ -71,7 +75,7 @@ const PITest = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();  // Prevent form submission
     
         if (!validateForm()) {
@@ -89,13 +93,24 @@ const PITest = () => {
         });
     
         const gwa = totalGradeUnits / totalUnits;  // GWA formula
-        console.log('Calculated GWA:', gwa);
-        console.log('Major:', formData.major);
-        console.log('Year Level:', formData.yearLevel);
-        console.log('Subjects:', formData.subjects);
-        console.log('GWA:', gwa);
+        //console.log('Calculated GWA:', gwa);
+        //console.log('Major:', formData.major);
+        //console.log('Year Level:', formData.yearLevel);
+        //console.log('Subjects:', formData.subjects);
+        //console.log('GWA:', gwa);
     
         // Save data or proceed with next steps
+        try {
+            await setDoc(doc(db, "Dataset", auth.currentUser.email), {
+                gwa: gwa,
+                year: formData.yearLevel,
+                major: formData.major
+              }, {merge: true});
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+        navigate('/AssessmentQuestions');
     };
     
 
@@ -225,7 +240,7 @@ const PITest = () => {
                         </Button>
                     </div>
                     <Button type="submit" variant="contained" className="button">
-                        Next
+                        Save
                     </Button>
                 </form>
             </Paper>

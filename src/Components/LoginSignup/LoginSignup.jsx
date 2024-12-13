@@ -92,7 +92,8 @@ const LoginSignup = () => {
                 const data = {
                     email: formData.email,
                     id: formData.studentId,
-                    personalitySummary: 'None'
+                    personalitySummary: 'None',
+                    major: 'None'
                 };
                 await setDoc(doc(db, "Dataset", data.email), data);
     

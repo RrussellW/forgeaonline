@@ -13,7 +13,7 @@ function App() {
       <Routes> {/* Define routes for different pages */}
         <Route path="/signup" element={<LoginSignup />} /> {/* Route for Login/Signup page */}
         <Route path="/" element={<LoginSignin />} /> {/* Route for Sign In page */}
-        <Route path="/test1" element={<PITest />} />
+        <Route path="/PersonalInfo" element={<PITest />} />
         <Route path="/AssessmentQuestions" element={<AssessmentQuestions />} />
       </Routes>
     </div>
