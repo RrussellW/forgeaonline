@@ -93,11 +93,11 @@ const AssessmentQuestions = () => {
         let updatedInformation = [...information];
         let updatedDecision = [...decision];
         let updatedStructure = [...structure];
-
+    
         if (qIndex < first) {
             updatedWorld[qIndex] = value;
             setFirstT(firstT + 1);
-            if(qIndex === 0 || qIndex % 2 === 0) {
+            if (qIndex === 0 || qIndex % 2 === 0) {
                 setExtroversion(extroversion + value);
             } else {
                 setIntroversion(introversion + value);
@@ -105,7 +105,7 @@ const AssessmentQuestions = () => {
         } else if (qIndex >= first && qIndex < second) {
             updatedInformation[qIndex - first] = value;
             setSecondT(secondT + 1);
-            if((qIndex - first) === 0 || (qIndex - first) % 2 === 0) {
+            if ((qIndex - first) === 0 || (qIndex - first) % 2 === 0) {
                 setSensing(sensing + value);
             } else {
                 setIntuition(intuition + value);
@@ -113,7 +113,7 @@ const AssessmentQuestions = () => {
         } else if (qIndex >= second && qIndex < third) {
             updatedDecision[qIndex - second] = value;
             setThirdT(thirdT + 1);
-            if((qIndex - second) === 0 || (qIndex - second) % 2 === 0) {
+            if ((qIndex - second) === 0 || (qIndex - second) % 2 === 0) {
                 setThinking(thinking + value);
             } else {
                 setFeeling(feeling + value);
@@ -121,25 +121,24 @@ const AssessmentQuestions = () => {
         } else if (qIndex >= third && qIndex < fourth) {
             updatedStructure[qIndex - third] = value;
             setFourthT(fourthT + 1);
-            if((qIndex - third) === 0 || (qIndex - third) % 2 === 0) {
+            if ((qIndex - third) === 0 || (qIndex - third) % 2 === 0) {
                 setJudging(judging + value);
             } else {
                 setPerceiving(perceiving + value);
             }
         }
-
+    
         setWorld(updatedWorld);
         setInformation(updatedInformation);
         setDecision(updatedDecision);
         setStructure(updatedStructure);
-
-        if (qIndex + 1 <= fourth) {
+    
+        if (qIndex + 1 < fourth) {
             setQIndex(qIndex + 1);
         } else {
-            navigate('/AssessmentQuestions');
+            navigate('/AssessmentResult'); // Redirect to the result page
         }
-
-    };
+    };    
 
     return (
         <div className="assessment-top">

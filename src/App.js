@@ -5,6 +5,7 @@ import LoginSignup from './Components/LoginSignup/LoginSignup';
 import LoginSignin from './Components/LoginSignin/LoginSignin';
 import PITest from './Components/PersonalInformation/PITest';
 import AssessmentQuestions from './Components/Assessment/AssessmentQuestions';
+import AssessmentResult from './Components/AssessmentResult/AssessmentResult';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<LoginSignin />} /> {/* Route for Sign In page */}
         <Route path="/PersonalInfo" element={<PITest />} />
         <Route path="/AssessmentQuestions" element={<AssessmentQuestions />} />
+        <Route path="/AssessmentResult" element={<AssessmentResult />} /> {/* Add AssessmentResult route */}
       </Routes>
     </div>
   );
