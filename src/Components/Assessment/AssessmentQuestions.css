@@ -12,6 +12,7 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
 
+
 /* Typography styles for question and question number */
 .question-number {
     font-family: 'Inter', sans-serif;
@@ -29,6 +30,7 @@
     color: #333;
     line-height: 1.5;
     font-weight: 500;
+    height: 100px;
 }
 
 /* Answers section styles */
