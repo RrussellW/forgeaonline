@@ -19,6 +19,7 @@ const PITest = () => {
         yearLevel: '',
         gender: '',
         semester: '',
+        year: '',
         subjects: [
             { grade: '', units: '' },
             { grade: '', units: '' },
@@ -68,7 +69,8 @@ const PITest = () => {
         if (!formData.major) newErrors.major = 'Please select your major';
         if (!formData.yearLevel) newErrors.yearLevel = 'Please select your year level';
         if (!formData.gender) newErrors.gender = 'Please select your gender';
-        if (!formData.semester) newErrors.semester = 'Please select your current semester for your grades';
+        if (!formData.semester) newErrors.semester = 'Please select your current semester';
+        if (!formData.semester) newErrors.semester = 'Please select your current school year';
 
         formData.subjects.forEach((subject, index) => {
             if (!subject.grade) newErrors[`subject_${index}_grade`] = `Grade is required`;
@@ -210,12 +212,28 @@ const PITest = () => {
                                 value={formData.semester}
                                 onChange={(e) => handleChange(e)}
                             >
-                                <MenuItem value="1">First Semester 2024-2025</MenuItem>
-                                <MenuItem value="2">Second Semester 2024-2025</MenuItem>
-                                <MenuItem value="3">First Semester 2025-2026</MenuItem>
-                                <MenuItem value="4">Second Semester 2025-2026</MenuItem>
+                                <MenuItem value="1">First Semester</MenuItem>
+                                <MenuItem value="2">Second Semester</MenuItem>
                             </Select>
                             {errors.semester && <Typography color="error" variant="caption">{errors.semester}</Typography>}
+                        </FormControl>
+                    </div>
+
+                    <div className="inputField">
+                        <FormControl fullWidth variant="filled" className="textFieldRoot">
+                            <InputLabel>School Year</InputLabel>
+                            <Select
+                                label="Year"
+                                name="year"
+                                value={formData.year}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <MenuItem value="1">2024-2025</MenuItem>
+                                <MenuItem value="2">2025-2026</MenuItem>
+                                <MenuItem value="3">2026-2027</MenuItem>
+                                <MenuItem value="4">2027-2028</MenuItem>
+                            </Select>
+                            {errors.year && <Typography color="error" variant="caption">{errors.year}</Typography>}
                         </FormControl>
                     </div>
 
