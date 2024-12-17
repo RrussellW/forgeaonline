@@ -1,18 +1,63 @@
-import React, { useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Paper, TextField, Button, Typography, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+//import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Typography} from '@mui/material';
 import './AssessmentResult.css'; // Import the CSS file
-
+import { auth, db } from '../../firebase';
+import { getAuth, onAuthStateChanged  } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 const AssessmentResult = () => {
-  // Dummy user data
-  const user = {
-    email: "1@gmail.com",
-    personalitySummary: "ESFP", // User's MBTI type
-    percentW: 70, // Extraversion percentage (W = Extraversion)
-    percentI: 75, // Introversion percentage (I = 100 - W)
-    percentP: 55, // Sensing percentage (P = Sensing)
-    percentS: 70, // Intuition percentage (S = 100 - P)
+  const auth = getAuth();
+  const [user, setUser] = useState({
+    email: "",
+    personalitySummary: "    ", // Default personality
+    percentW: 0,
+    percentI: 0,
+    percentD: 0,
+    percentS: 0,
+  });
+  const [loading, setLoading] = useState(true);
+  const [selectedLetter, setSelectedLetter] = useState("");
+
+  const fetchUserData = async (currentUser) => {
+    if(auth.currentUser != null) {
+      try {
+        const docRef = doc(db, "Dataset", currentUser.email);
+        const docSnap = await getDoc(docRef); // Await the asynchronous getDoc call
+    
+        if (docSnap.exists()) {
+          const data = docSnap.data(); // Retrieve the document's data
+          setUser({
+            email: auth.currentUser.email,
+            personalitySummary: data.personalitySummary || "",
+            percentW: data.percentW || 0,
+            percentI: data.percentI || 0,
+            percentD: data.percentD || 0,
+            percentS: data.percentS || 0,
+          });
+          setSelectedLetter(data.personalitySummary?.[0] || "");
+          console.log("User data:", data);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        alert("Error fetching data: " + error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        fetchUserData(currentUser);
+      } else {
+        console.log("No user is logged in");
+        setLoading(false);
+      }
+    });
+    return () => unsubscribe();
+  }, [auth.currentUser]);
 
   // Trait descriptions
   const descriptions = {
@@ -39,7 +84,7 @@ const AssessmentResult = () => {
   };
 
   // Calculate dominant and inverse values based on the MBTI type and percentages
-  const calculateTraits = (personalitySummary, percentW, percentI, percentP, percentS) => {
+  const calculateTraits = (personalitySummary, percentW, percentI, percentD, percentS) => {
     let traitData = {};
 
     personalitySummary.split('').forEach(letter => {
@@ -64,40 +109,40 @@ const AssessmentResult = () => {
           traitData.S = {
             dominant: 'Sensing',
             inverse: 'Intuition',
-            value: percentP,
-            inverseValue: 100 - percentP,
+            value: percentI,
+            inverseValue: 100 - percentI,
           };
           break;
         case 'N': // Intuition
           traitData.N = {
             dominant: 'Intuition',
             inverse: 'Sensing',
-            value: percentS,
-            inverseValue: 100 - percentS,
+            value: percentI,
+            inverseValue: 100 - percentI,
           };
           break;
         case 'T': // Thinking
           traitData.T = {
             dominant: 'Thinking',
             inverse: 'Feeling',
-            value: percentW, // For this case, assume it matches W value
-            inverseValue: 100 - percentW,
+            value: percentD, // For this case, assume it matches D value
+            inverseValue: 100 - percentD,
           };
           break;
         case 'F': // Feeling
           traitData.F = {
             dominant: 'Feeling',
             inverse: 'Thinking',
-            value: percentI, // For this case, assume it matches I value
-            inverseValue: 100 - percentI,
+            value: percentD,
+            inverseValue: 100 - percentD,
           };
           break;
         case 'J': // Judging
           traitData.J = {
             dominant: 'Judging',
             inverse: 'Perceiving',
-            value: percentP,
-            inverseValue: 100 - percentP,
+            value: percentS,
+            inverseValue: 100 - percentS,
           };
           break;
         case 'P': // Perceiving
@@ -108,84 +153,79 @@ const AssessmentResult = () => {
             inverseValue: 100 - percentS,
           };
           break;
+        case ' ': // None
+          traitData.P = {
+            dominant: ' ',
+            inverse: ' ',
+            value: 0,
+            inverseValue: 0,
+          };
+          break;
         default:
           break;
       }
     });
-
     return traitData;
   };
 
   // Calculate trait data based on the user's MBTI type and percentages
-  const traitData = calculateTraits(user.personalitySummary, user.percentW, user.percentI, user.percentP, user.percentS);
-
-  // State for the selected letter
-  const [selectedLetter, setSelectedLetter] = useState(user.personalitySummary[0]);
+  const traitData = calculateTraits(user.personalitySummary, user.percentW, user.percentI, user.percentD, user.percentS);
 
   // Button colors for visual appeal
   const buttonColors = ['#F8F1AD', '#EDACA3', '#E199C8', '#B78FD6'];
+  if (loading) {
+    return <div className="assessment-container">Loading...</div>;
+  }
 
   return (
     <div className="assessment-container">
-      <Typography variant="h5" className="typographyHeader">
-                    Test Results
-      </Typography>
-      <h2 className="chart-title">Your Personality Type is:</h2>
+      {auth.currentUser != null && (<div>
+        <Typography variant="h5" className="typographyHeader">
+                      Test Results
+        </Typography>
+        <h2 className="chart-title">Your Personality Type is:</h2>
 
-      {/* Personality Buttons */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
-        {user.personalitySummary.split('').map((letter, index) => (
-          <button
-            key={letter}
-            onClick={() => setSelectedLetter(letter)}
-            style={{
-              backgroundColor: selectedLetter === letter ? '#564a61' : buttonColors[index % buttonColors.length],
-              color: selectedLetter === letter ? buttonColors[index % buttonColors.length] : '#333',
-              border: `6px solid ${buttonColors[index % buttonColors.length]}`,
-              borderRadius: '8px',
-              padding: '10px 20px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              fontSize: '20px',
-            }}
-          >
-            {letter}
-          </button>
-        ))}
-      </div>
+        {/* Personality Buttons */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
+          {user.personalitySummary.split('').map((letter, index) => (
+            <button
+              key={letter}
+              onClick={() => setSelectedLetter(letter)}
+              style={{
+                backgroundColor: selectedLetter === letter ? '#564a61' : buttonColors[index % buttonColors.length],
+                color: selectedLetter === letter ? buttonColors[index % buttonColors.length] : '#333',
+                border: `6px solid ${buttonColors[index % buttonColors.length]}`,
+                borderRadius: '8px',
+                padding: '10px 20px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                fontSize: '20px',
+              }}
+            >
+              {letter}
+            </button>
+          ))}
+        </div>
 
-      {/* Trait Descriptions */}
-      <div style={{ marginBottom: '20px', textAlign: 'left', whiteSpace: 'pre-line' }}>
-        <h3>{traitData[selectedLetter]?.dominant}: {traitData[selectedLetter]?.value}%</h3>
-        <p>{descriptions[traitData[selectedLetter]?.dominant]}</p>
+        {/* Trait Descriptions */}
+        <div style={{ marginBottom: '20px', textAlign: 'left', whiteSpace: 'pre-line' }}>
+          <h3>{traitData[selectedLetter]?.dominant}: {traitData[selectedLetter]?.value}%</h3>
+          <p>{descriptions[traitData[selectedLetter]?.dominant]}</p>
 
-        <h4 style={{ color: 'gray' }}>Other Trait: {traitData[selectedLetter]?.inverse} ({traitData[selectedLetter]?.inverseValue}%)</h4>
-        <p style={{ color: 'gray' }}>{descriptions[traitData[selectedLetter]?.inverse]}</p>
-      </div>
+          <h4 style={{ color: 'gray' }}>Other Trait: {traitData[selectedLetter]?.inverse} ({traitData[selectedLetter]?.inverseValue}%)</h4>
+          <p style={{ color: 'gray' }}>{descriptions[traitData[selectedLetter]?.inverse]}</p>
+        </div>
+        <p style={{ fontSize: '12px', color: 'gray', textAlign: 'center' }}>
+          Please remember that these results are for informational purposes only and should not be considered as definitive or absolute.
+        </p>
+      </div>)}
 
-      {/* Chart
-      <div className="chart-container" style={{ height: '300px' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={[
-              { name: traitData[selectedLetter]?.dominant, value: traitData[selectedLetter]?.value },
-              { name: traitData[selectedLetter]?.inverse, value: traitData[selectedLetter]?.inverseValue },
-            ]}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="value" fill="#82ca9d" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div> */}
-      {/* Informational Disclaimer */}
-      <p style={{ fontSize: '12px', color: 'gray', textAlign: 'center' }}>
-        Please remember that these results are for informational purposes only and should not be considered as definitive or absolute.
-      </p>
+      {auth.currentUser === null && (
+        <div>
+          Loading ...
+        </div>
+      )}
     </div>
   );
 };
