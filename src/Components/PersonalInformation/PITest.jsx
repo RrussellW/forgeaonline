@@ -210,8 +210,10 @@ const PITest = () => {
                                 value={formData.semester}
                                 onChange={(e) => handleChange(e)}
                             >
-                                <MenuItem value="1">First Semester</MenuItem>
-                                <MenuItem value="2">Second Semester</MenuItem>
+                                <MenuItem value="1">First Semester 2024-2025</MenuItem>
+                                <MenuItem value="2">Second Semester 2024-2025</MenuItem>
+                                <MenuItem value="3">First Semester 2025-2026</MenuItem>
+                                <MenuItem value="4">Second Semester 2025-2026</MenuItem>
                             </Select>
                             {errors.semester && <Typography color="error" variant="caption">{errors.semester}</Typography>}
                         </FormControl>
