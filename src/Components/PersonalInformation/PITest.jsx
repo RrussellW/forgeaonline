@@ -17,6 +17,8 @@ const PITest = () => {
     const [formData, setFormData] = useState({
         major: '',
         yearLevel: '',
+        gender: '',
+        semester: '',
         subjects: [
             { grade: '', units: '' },
             { grade: '', units: '' },
@@ -65,6 +67,8 @@ const PITest = () => {
         const newErrors = {};
         if (!formData.major) newErrors.major = 'Please select your major';
         if (!formData.yearLevel) newErrors.yearLevel = 'Please select your year level';
+        if (!formData.gender) newErrors.gender = 'Please select your gender';
+        if (!formData.semester) newErrors.semester = 'Please select your current semester for your grades';
 
         formData.subjects.forEach((subject, index) => {
             if (!subject.grade) newErrors[`subject_${index}_grade`] = `Grade is required`;
@@ -174,10 +178,44 @@ const PITest = () => {
                         </FormControl>
                     </div>
 
+                    <div className="inputField">
+                        <FormControl fullWidth variant="filled" className="textFieldRoot">
+                            <InputLabel>Gender</InputLabel>
+                            <Select
+                                label="Gender"
+                                name="gender"
+                                value={formData.gender}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <MenuItem value="1">Man</MenuItem>
+                                <MenuItem value="2">Woman</MenuItem>
+                                <MenuItem value="3">Non-binary</MenuItem>
+                                <MenuItem value="4">I prefer not to say</MenuItem>
+                            </Select>
+                            {errors.gender && <Typography color="error" variant="caption">{errors.gender}</Typography>}
+                        </FormControl>
+                    </div>
+
                     <Typography variant="h6">GWA Calculation</Typography>
                     <Typography variant="body2" style={{ marginBottom: '10px' }}>
                         Please input your grades from your major classes and its number of units. GWA will be automatically calculated.
                     </Typography>
+
+                    <div className="inputField">
+                        <FormControl fullWidth variant="filled" className="textFieldRoot">
+                            <InputLabel>Semester</InputLabel>
+                            <Select
+                                label="Semester"
+                                name="semester"
+                                value={formData.semester}
+                                onChange={(e) => handleChange(e)}
+                            >
+                                <MenuItem value="1">First Semester</MenuItem>
+                                <MenuItem value="2">Second Semester</MenuItem>
+                            </Select>
+                            {errors.semester && <Typography color="error" variant="caption">{errors.semester}</Typography>}
+                        </FormControl>
+                    </div>
 
                     {
                         formData.subjects.map((subject, index) => (
