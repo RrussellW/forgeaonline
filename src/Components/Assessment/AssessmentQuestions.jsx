@@ -204,14 +204,14 @@ const AssessmentQuestions = () => {
 
     return (
         <div className="assessment-top">
-            <div className="assessment-container">
+            <div className="assessment-questions-container">
                 {qIndex < 32 && (<div className="question-number">
                     {(qIndex + 1)} of {worldQ.length + informationQ.length + decisionQ.length + structureQ.length}
                 </div>)}
                 {qIndex >= 32 && (<div className="question-number">
                     Finished Assessment
                 </div>)}
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: .2, md: -5 }}>
+                <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: .2, md: -30 }}>
                     <Gauge width={100} height={100} value={(firstT/8) * 100} text={""} sx={(theme) => ({
                         [`& .${gaugeClasses.valueArc}`]: {
                             fill: "#F8F1AD"
@@ -232,48 +232,50 @@ const AssessmentQuestions = () => {
                 <div className="question">
                     {qIndex < fourth && (proceedAssessment())}
                 </div>
-                {qIndex < 32 && (<div className="answers">
-                    {/* Left label for Agree */}
-                    <div className="label-left">Agree</div>
+                <div>
+                    {qIndex < 32 && (<div className="answers">
+                        {/* Left label for Agree */}
+                        <div className="label-left">Agree</div>
 
-                    {/* Leftmost button (largest) */}
-                    <div className="button-container">
-                        <button onClick={() => handleAnswer(7)} className="button-7"></button>
-                    </div>
+                        {/* Leftmost button (largest) */}
+                        <div className="button-container">
+                            <button onClick={() => handleAnswer(7)} className="button-7"></button>
+                        </div>
 
-                    {/* Second button */}
-                    <div className="button-container">
-                        <button onClick={() => handleAnswer(6)} className="button-6"></button>
-                    </div>
+                        {/* Second button */}
+                        <div className="button-container">
+                            <button onClick={() => handleAnswer(6)} className="button-6"></button>
+                        </div>
 
-                    {/* Third button */}
-                    <div className="button-container">
-                        <button onClick={() => handleAnswer(5)} className="button-5"></button>
-                    </div>
+                        {/* Third button */}
+                        <div className="button-container">
+                            <button onClick={() => handleAnswer(5)} className="button-5"></button>
+                        </div>
 
-                    {/* Center button (smallest) */}
-                    <div className="button-container">
-                        <button onClick={() => handleAnswer(4)} className="button-center"></button>
-                    </div>
+                        {/* Center button (smallest) */}
+                        <div className="button-container">
+                            <button onClick={() => handleAnswer(4)} className="button-center"></button>
+                        </div>
 
-                    {/* Fifth button */}
-                    <div className="button-container">
-                        <button onClick={() => handleAnswer(3)} className="button-3"></button>
-                    </div>
+                        {/* Fifth button */}
+                        <div className="button-container">
+                            <button onClick={() => handleAnswer(3)} className="button-3"></button>
+                        </div>
 
-                    {/* Sixth button */}
-                    <div className="button-container">
-                        <button onClick={() => handleAnswer(2)} className="button-2"></button>
-                    </div>
+                        {/* Sixth button */}
+                        <div className="button-container">
+                            <button onClick={() => handleAnswer(2)} className="button-2"></button>
+                        </div>
 
-                    {/* Rightmost button (largest) */}
-                    <div className="button-container">
-                        <button onClick={() => handleAnswer(1)} className="button-1"></button>
-                    </div>
+                        {/* Rightmost button (largest) */}
+                        <div className="button-container">
+                            <button onClick={() => handleAnswer(1)} className="button-1"></button>
+                        </div>
 
-                    {/* Right label for Disagree */}
-                    <div className="label-right">Disagree</div>
-                </div>)}
+                        {/* Right label for Disagree */}
+                        <div className="label-right">Disagree</div>
+                    </div>)}
+                </div>
 
                 {qIndex >= 32 && (
                     <Button variant="contained" color="success" onClick={ () => proceedResults()}>
