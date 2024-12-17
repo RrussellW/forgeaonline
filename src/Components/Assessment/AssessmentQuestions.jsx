@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 import { Stack, Button } from '@mui/material';
+import { auth, db } from '../../firebase';
+import { doc, setDoc } from "firebase/firestore";
 import "./AssessmentQuestions.css";
 import { useNavigate } from 'react-router-dom';
 
@@ -19,6 +21,12 @@ const AssessmentQuestions = () => {
     const [feeling, setFeeling] = useState(0);
     const [judging, setJudging] = useState(0);
     const [perceiving, setPerceiving] = useState(0);
+    const [summary, setSummary] = useState("");
+
+    const [percentW, setPercentW] = useState(0);
+    const [percentI, setPercentI] = useState(0);
+    const [percentD, setPercentD] = useState(0);
+    const [percentS, setPercentS] = useState(0);
 
     const [firstT, setFirstT] = useState(0);
     const [secondT, setSecondT] = useState(0);
@@ -88,56 +96,110 @@ const AssessmentQuestions = () => {
         return "";
     };
 
+    const proceedResults = async () => {
+        const data = {
+            personalitySummary: summary,
+            percentW: (percentW),
+            percentI: (percentI),
+            percentD: (percentD),
+            percentS: (percentS)
+        };
+
+        try {
+            await setDoc(doc(db, "Dataset", auth.currentUser.email), data, {merge: true});
+        } catch(error) {
+
+            return;
+        }
+        navigate('/AssessmentResult')
+    };
+
     const handleAnswer = (value) => {
         let updatedWorld = [...world];
         let updatedInformation = [...information];
         let updatedDecision = [...decision];
         let updatedStructure = [...structure];
+
+        if (qIndex + 1 === first) {
+            // Final question for World section
+            if (extroversion > introversion) {
+                setSummary(summary + 'E');
+                setPercentW(Math.round((extroversion / (extroversion + introversion)) * 100));
+            } else {
+                setSummary(summary + 'I');
+                setPercentW(Math.round((introversion / (extroversion + introversion)) * 100));
+            }
+        }
+    
+        if (qIndex + 1 === second) {
+            // Final question for Information section
+            if (sensing > intuition) {
+                setSummary(summary + 'S');
+                setPercentI(Math.round((sensing / (sensing + intuition)) * 100));
+            } else {
+                setSummary(summary + 'N');
+                setPercentI(Math.round((intuition / (sensing + intuition)) * 100));
+            }
+        }
+    
+        if (qIndex + 1 === third) {
+            // Final question for Decision section
+            if (thinking > feeling) {
+                setSummary(summary + 'T');
+                setPercentD(Math.round((thinking / (thinking + feeling)) * 100));
+            } else {
+                setSummary(summary + 'F');
+                setPercentD(Math.round((feeling / (thinking + feeling)) * 100));
+            }
+        }
+    
+        if (qIndex + 1 === fourth) {
+            // Final question for Structure section
+            if (judging > perceiving) {
+                setSummary(summary + 'J');
+                setPercentS(Math.round((judging / (judging + perceiving)) * 100));
+            } else {
+                setSummary(summary + 'P');
+                setPercentS(Math.round((perceiving / (judging + perceiving)) * 100));
+            }
+        }
     
         if (qIndex < first) {
             updatedWorld[qIndex] = value;
-            setFirstT(firstT + 1);
-            if (qIndex === 0 || qIndex % 2 === 0) {
-                setExtroversion(extroversion + value);
-            } else {
-                setIntroversion(introversion + value);
-            }
-        } else if (qIndex >= first && qIndex < second) {
+            setExtroversion((qIndex % 2 === 0) ? extroversion + value : extroversion);
+            setIntroversion((qIndex % 2 !== 0) ? introversion + value : introversion);
+        } else if (qIndex < second) {
             updatedInformation[qIndex - first] = value;
-            setSecondT(secondT + 1);
-            if ((qIndex - first) === 0 || (qIndex - first) % 2 === 0) {
-                setSensing(sensing + value);
-            } else {
-                setIntuition(intuition + value);
-            }
-        } else if (qIndex >= second && qIndex < third) {
+            setSensing(((qIndex - first) % 2 === 0) ? sensing + value : sensing);
+            setIntuition(((qIndex - first) % 2 !== 0) ? intuition + value : intuition);
+        } else if (qIndex < third) {
             updatedDecision[qIndex - second] = value;
-            setThirdT(thirdT + 1);
-            if ((qIndex - second) === 0 || (qIndex - second) % 2 === 0) {
-                setThinking(thinking + value);
-            } else {
-                setFeeling(feeling + value);
-            }
-        } else if (qIndex >= third && qIndex < fourth) {
+            setThinking(((qIndex - second) % 2 === 0) ? thinking + value : thinking);
+            setFeeling(((qIndex - second) % 2 !== 0) ? feeling + value : feeling);
+        } else if (qIndex < fourth) {
             updatedStructure[qIndex - third] = value;
-            setFourthT(fourthT + 1);
-            if ((qIndex - third) === 0 || (qIndex - third) % 2 === 0) {
-                setJudging(judging + value);
-            } else {
-                setPerceiving(perceiving + value);
-            }
+            setJudging(((qIndex - third) % 2 === 0) ? judging + value : judging);
+            setPerceiving(((qIndex - third) % 2 !== 0) ? perceiving + value : perceiving);
         }
     
         setWorld(updatedWorld);
         setInformation(updatedInformation);
         setDecision(updatedDecision);
         setStructure(updatedStructure);
+
+        if(qIndex < first) {
+            setFirstT(firstT + 1);
+        } else if(qIndex >= first && qIndex < second) {
+            setSecondT(secondT + 1);
+        } else if(qIndex >= second && qIndex < third) {
+            setThirdT(thirdT + 1);
+        } else if(qIndex >= third && qIndex < fourth) {
+            setFourthT(fourthT + 1);
+        } 
     
-        if (qIndex + 1 < fourth) {
+        if (qIndex + 1 <= fourth) {
             setQIndex(qIndex + 1);
-        } else {
-            navigate('/AssessmentResult'); // Redirect to the result page
-        }
+        } 
     };    
 
     return (
@@ -149,7 +211,7 @@ const AssessmentQuestions = () => {
                 {qIndex >= 32 && (<div className="question-number">
                     Finished Assessment
                 </div>)}
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: .2, md: -30 }}>
+                <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: .2, md: -5 }}>
                     <Gauge width={100} height={100} value={(firstT/8) * 100} text={""} sx={(theme) => ({
                         [`& .${gaugeClasses.valueArc}`]: {
                             fill: "#F8F1AD"
@@ -214,7 +276,7 @@ const AssessmentQuestions = () => {
                 </div>)}
 
                 {qIndex >= 32 && (
-                    <Button variant="contained" color="success">
+                    <Button variant="contained" color="success" onClick={ () => proceedResults()}>
                         Proceed
                     </Button>
                 )}
