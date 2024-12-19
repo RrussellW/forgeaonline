@@ -168,6 +168,66 @@ button:active {
 
     /* Ensuring buttons fill width on mobile */
     .answers button {
-        width: 100%; /* Full-width buttons on mobile */
+        transform: scale(0.8); /* Scale down uniformly */
+        margin: 0;
     }
+
+    .gauge-container {
+        transform: scale(0.8); /* Scale down uniformly */
+        margin: 0;
+        padding: 0;
+    }
+
+    .assessment-questions-container {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .label-left {
+        transform: scale(0.8); /* Scale down uniformly */
+    }
+
+    .label-right {
+        transform: scale(0.8); /* Scale down uniformly */
+    }   
+}
+
+@media (max-width: 324px) {
+    .assessment-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .question {
+        font-size: 16px;
+    }
+
+    /* Ensuring buttons fill width on mobile */
+    .answers button {
+        transform: scale(0.4); /* Scale down uniformly */
+        margin: 0;
+    }
+
+    .gauge-container {
+        transform: scale(0.8); /* Scale down uniformly */
+        margin: 0;
+        padding: 0;
+    }
+
+    .assessment-questions-container {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .answers-container {
+        transform: scale(0.8);
+    }
+
+    .label-left {
+        transform: scale(0.8); /* Scale down uniformly */
+    }
+
+    .label-right {
+        transform: scale(0.8); /* Scale down uniformly */
+    }   
 }

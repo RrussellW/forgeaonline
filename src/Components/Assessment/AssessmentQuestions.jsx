@@ -211,7 +211,8 @@ const AssessmentQuestions = () => {
                 {qIndex >= 32 && (<div className="question-number">
                     Finished Assessment
                 </div>)}
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: .2, md: -30 }}>
+                <div className="gauge-container"> 
+                <Stack direction={{ xs: 'row', md: 'row' }} spacing={{ xs: .2, md: -30 }}>
                     <Gauge width={100} height={100} value={(firstT/8) * 100} text={""} sx={(theme) => ({
                         [`& .${gaugeClasses.valueArc}`]: {
                             fill: "#F8F1AD"
@@ -229,13 +230,46 @@ const AssessmentQuestions = () => {
                             fill: "#B78FD6"
                         }})}/>
                 </Stack>
+                </div>
                 <div className="question">
                     {qIndex < fourth && (proceedAssessment())}
                 </div>
-                <div>
+                <div className="answers-container">
+                {qIndex < 32 && (<div className="answers">
+                        {/* Left label for Agree */}
+                        <div className="button-container">
+                        </div>
+                        <div className="label-left">Agree</div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        <div className="button-container">
+                        </div>
+                        {/* Right label for Disagree */}
+                        <div className="label-right">Disagree</div>
+                        <div className="button-container">
+                        </div>
+                    </div>)}
                     {qIndex < 32 && (<div className="answers">
                         {/* Left label for Agree */}
-                        <div className="label-left">Agree</div>
+                        <div className="label-left">     </div>
 
                         {/* Leftmost button (largest) */}
                         <div className="button-container">
@@ -273,15 +307,17 @@ const AssessmentQuestions = () => {
                         </div>
 
                         {/* Right label for Disagree */}
-                        <div className="label-right">Disagree</div>
+                        <div className="label-right">        </div>
                     </div>)}
+
+                    {qIndex >= 32 && (
+                        <Button variant="contained" color="success" onClick={ () => proceedResults()}>
+                            Proceed
+                        </Button>
+                    )}
                 </div>
 
-                {qIndex >= 32 && (
-                    <Button variant="contained" color="success" onClick={ () => proceedResults()}>
-                        Proceed
-                    </Button>
-                )}
+                
             </div>
         </div>
     );
