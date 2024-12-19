@@ -1,5 +1,5 @@
 /* Paper container styles */
-.paperContainer {
+.paperContainerPI {
     margin-top: 50px;
     max-width: 400px;
     margin-left: auto;
@@ -13,10 +13,10 @@
 }
 
 /* Typography styles */
-.typographyHeader {
+.typographyHeaderPI {
     font-family: 'Inter', sans-serif;
     text-align: center;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 }
 
 /* Input fields styles */

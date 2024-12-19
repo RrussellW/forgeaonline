@@ -137,8 +137,8 @@ const PITest = () => {
 
     return (
         <CacheProvider value={cache}>
-            <Paper elevation={24} className="paperContainer">
-                <Typography variant="h5" className="typographyHeader">
+            <Paper elevation={24} className="paperContainerPI">
+                <Typography variant="h5" className="typographyHeaderPI">
                     Personal Information Test
                 </Typography>
                 <Typography variant="body2" style={{ marginBottom: '10px' }}>

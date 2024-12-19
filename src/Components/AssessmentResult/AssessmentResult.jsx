@@ -180,7 +180,7 @@ const AssessmentResult = () => {
   return (
     <div className="assessment-container">
       {auth.currentUser != null && (<div>
-        <Typography variant="h5" className="typographyHeader">
+        <Typography variant="h5" className="typographyHeaderAR">
                       Test Results
         </Typography>
         <h2 className="chart-title">Your Personality Type is:</h2>
