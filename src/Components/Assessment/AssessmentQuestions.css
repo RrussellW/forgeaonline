@@ -1,5 +1,6 @@
 /* Assessment container styles */
 .assessment-questions-container {
+    position: relative;
     margin-top: 50px;
     max-width: 635px;
     margin-left: auto;
@@ -10,6 +11,12 @@
     background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
     backdrop-filter: blur(10px); /* Adds a blurred background effect */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.back-button-container {
+    position: absolute;
+    top: 30px;
+    left: 30px;
 }
 
 
