@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 //import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Typography} from '@mui/material';
+import { Typography, CircularProgress} from '@mui/material';
 import './AssessmentResult.css'; // Import the CSS file
 import { auth, db } from '../../firebase';
 import { getAuth, onAuthStateChanged  } from 'firebase/auth';
@@ -174,7 +174,7 @@ const AssessmentResult = () => {
   // Button colors for visual appeal
   const buttonColors = ['#F8F1AD', '#EDACA3', '#E199C8', '#B78FD6'];
   if (loading) {
-    return <div className="assessment-container">Loading...</div>;
+    return <div className="assessment-container"><CircularProgress color="success" /></div>;
   }
 
   return (
@@ -223,7 +223,7 @@ const AssessmentResult = () => {
 
       {auth.currentUser === null && (
         <div>
-          Loading ...
+          <CircularProgress color="success" />
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './PITest.css';
-import { Paper, TextField, Button, Typography, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+import { Paper, TextField, Button, Typography, MenuItem, Select, FormControl, InputLabel, CircularProgress } from '@mui/material';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { auth, db } from '../../firebase';
@@ -13,6 +13,7 @@ const cache = createCache({
 });
 
 const PITest = () => {
+    const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         major: '',
@@ -297,8 +298,13 @@ const PITest = () => {
                             Add Subject
                         </Button>
                     </div>
-                    <Button type="submit" variant="contained" className="button">
-                        Save
+                    <Button type="submit" variant="contained" className="button" disabled={disabled}>
+                        {!disabled &&
+                            (<>Save</>)
+                        }
+                        {disabled &&
+                            <CircularProgress color="inherit" size="30px"/>
+                        }
                     </Button>
                 </form>
             </Paper>
