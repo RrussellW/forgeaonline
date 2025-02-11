@@ -53,49 +53,61 @@ const LoginSignin = () => {
     };
 
     const handleSubmit = (e) => {
-        const newErrors = {};
-        setFirebaseError(null)
         e.preventDefault();
+        setFirebaseError(null);
         setDisabled(true);
-        if (validateForm()) {
-            const auth = getAuth();
-            signInWithEmailAndPassword(auth, formData.email, formData.password)
-                .then(async() => {
-                    const q = query(collection(db, "Users"), where("email", "==", formData.email));
-                    const querySnapshot = await getDocs(q);
-                    if (querySnapshot.empty) {
-                        const dataMobile = {
-                            email: formData.email,
-                            percentD: 0,
-                            percentI: 0,
-                            percentS: 0,
-                            percentW: 0,
-                            personalitySummary: 'NONE',
-                            type: 1,
-                        };
-                    await setDoc(doc(db, "Users", formData.email), dataMobile, {merge: true});
-                    }
-                    console.log('Login successful');
-                    setDisabled(false);
-                    navigate('/PersonalInfo'); // Redirect to the dashboard or another page
-                })
-                .catch((error) => {
-                    setDisabled(false);
-                    const errorCode = error.code;
-                    if (errorCode === 'auth/wrong-password') {
-                        setFirebaseError('Incorrect password');
-                    } else if (errorCode === 'auth/user-not-found') {
-                        setFirebaseError('No user found with this email');
-                    } else if (errorCode === 'auth/invalid-credential') {
-                        newErrors.password = 'Invalid credentials, check email or password';
-                        setErrors(newErrors);
-                        //setFirebaseError('Invalid credentials');
-                    } else {
-                        //alert(error.code)
-                        setFirebaseError('Login failed, please try again');
-                    }
-                });
+    
+        // Extract user ID and append @forgea.com
+        const userId = formData.email.trim(); // Get entered ID
+        const emailWithDomain = `${userId}@forgea.com`; // Append domain
+    
+        // Validate only the user ID (not full email)
+        if (!userId) {
+            setErrors({ email: 'User ID is required' });
+            setDisabled(false);
+            return;
         }
+    
+        if (!formData.password) {
+            setErrors({ password: 'Password is required' });
+            setDisabled(false);
+            return;
+        }
+    
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, emailWithDomain, formData.password)
+            .then(async () => {
+                const q = query(collection(db, "Users"), where("email", "==", emailWithDomain));
+                const querySnapshot = await getDocs(q);
+                if (querySnapshot.empty) {
+                    const dataMobile = {
+                        id: userId,
+                        percentD: 0,
+                        percentI: 0,
+                        percentS: 0,
+                        percentW: 0,
+                        personalitySummary: 'NONE',
+                        type: 1,
+                    };
+                    await setDoc(doc(db, "Users", userId), dataMobile, { merge: true });
+                }
+                console.log('Login successful');
+                setDisabled(false);
+                navigate('/PersonalInfo');
+            })
+            .catch((error) => {
+                setDisabled(false);
+                const errorCode = error.code;
+                if (errorCode === 'auth/wrong-password') {
+                    setFirebaseError('Incorrect password');
+                } else if (errorCode === 'auth/user-not-found') {
+                    setFirebaseError('No user found with this ID');
+                } else if (errorCode === 'auth/invalid-credential') {
+                    setErrors({ password: 'Invalid credentials, check user ID or password' });
+                } else {
+                    setFirebaseError('Login failed, please try again');
+                }
+            });
     };
 
     return (
@@ -108,9 +120,9 @@ const LoginSignin = () => {
                     <div className="inputField">
                         <TextField
                             variant="filled"
-                            label="Email"
+                            label="User ID"
                             name="email"
-                            type="email"
+                            type="text"
                             value={formData.email}
                             onChange={handleChange}
                             fullWidth
