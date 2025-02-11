@@ -77,7 +77,8 @@ const LoginSignin = () => {
                     }
                     console.log('Login successful');
                     setDisabled(false);
-                    navigate('/PersonalInfo'); // Redirect to the dashboard or another page
+                    // navigate('/PersonalInfo'); // Redirect to the dashboard or another page
+                    navigate('/Disclaimer');
                 })
                 .catch((error) => {
                     setDisabled(false);
