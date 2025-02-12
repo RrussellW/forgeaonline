@@ -19,6 +19,26 @@
     left: 30px;
 }
 
+.back-button {
+    background-color: #444444; /* Custom background color */
+    padding: 12px 32px;
+    border-radius: 12px;
+    text-transform: none; /* Keeps text in sentence case */
+    margin-bottom: 12px;
+    color: white; /* Ensure text color is white */
+    font-weight: bold; /* Make text bold */
+    width: 100%; /* Make button full width */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.back-button:hover {
+    background-color: #333333; /* Custom hover color */
+}
+
+.back-button:active {
+    background-color: #222222; /* Darker color for active state */
+}
+
 
 /* Typography styles for question and question number */
 .question-number {
@@ -82,7 +102,7 @@
     border-radius: 50%;
     margin: 0 10px;
     background-color: #F8F1AD;
-    border: 1px solid black; /* Green for Agree */
+    border: 1px solid #555555; /* Green for Agree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -93,7 +113,7 @@
     border-radius: 50%;
     margin: 0 10px;
     background-color: #F2CEA8;
-    border: 1px solid black; /* Green for Agree */
+    border: 1px solid #555555; /* Green for Agree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -104,7 +124,7 @@
     border-radius: 50%;
     margin: 0 10px;
     background-color: #EDACA3;
-    border: 1px solid black; /* Green for Agree */
+    border: 1px solid #555555; /* Green for Agree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -115,7 +135,7 @@
     border-radius: 50%;
     margin: 0 10px;
     background-color: #E79EB1;
-    border: 1px solid black; /* Yellow for Neutral */
+    border: 1px solid #555555; /* Yellow for Neutral */
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -126,7 +146,7 @@
     border-radius: 50%;
     margin: 0 10px;
     background-color: #E199C8;
-    border: 1px solid black; /* Red for Disagree */
+    border: 1px solid #555555; /* Red for Disagree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -137,7 +157,7 @@
     border-radius: 50%;
     margin: 0 10px;
     background-color: #D894DC;
-    border: 1px solid black; /* Red for Disagree */
+    border: 1px solid #555555; /* Red for Disagree */
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -148,7 +168,7 @@
     border-radius: 50%;
     margin: 0 10px;
     background-color: #B78FD6;
-    border: 1px solid black; /* Red for Disagree */
+    border: 1px solid #555555; /* Red for Disagree */
     cursor: pointer;
     transition: all 0.3s ease;
 }

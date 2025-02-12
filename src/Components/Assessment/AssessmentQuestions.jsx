@@ -129,34 +129,44 @@ const AssessmentQuestions = () => {
     let updatedInformation = [...information];
     let updatedDecision = [...decision];
     let updatedStructure = [...structure];
-
+  
     // Handle "Back" functionality
     if (value === "Back") {
       if (qIndex > 0) {
         setQIndex(qIndex - 1);
-
         if (qIndex < first) {
-          updatedWorld[qIndex + 1] = 0;
-          setExtroversion(0);
-          setIntroversion(0);
+          updatedWorld[qIndex] = 0; // Reset the current question's answer
+          setExtroversion((prev) => prev - world[qIndex]); // Adjust extroversion score
+          setIntroversion((prev) => prev - world[qIndex + 1]); // Adjust introversion score
           console.log("World:", updatedWorld.map(v => (v === 0 ? '-' : v)).join(','));
         } else if (qIndex < second) {
-          updatedInformation[qIndex - first + 1] = 0;
-          setSensing(0);
-          setIntuition(0);
+          updatedInformation[qIndex - first] = 0; // Reset the current question's answer
+          setSensing((prev) => prev - information[qIndex - first]); // Adjust sensing score
+          setIntuition((prev) => prev - information[qIndex - first + 1]); // Adjust intuition score
           console.log("Information:", updatedInformation.map(v => (v === 0 ? '-' : v)).join(','));
         } else if (qIndex < third) {
-          updatedDecision[qIndex - second + 1] = 0;
-          setThinking(0);
-          setFeeling(0);
+          updatedDecision[qIndex - second] = 0; // Reset the current question's answer
+          setThinking((prev) => prev - decision[qIndex - second]); // Adjust thinking score
+          setFeeling((prev) => prev - decision[qIndex - second + 1]); // Adjust feeling score
           console.log("Decision:", updatedDecision.map(v => (v === 0 ? '-' : v)).join(','));
         } else if (qIndex < fourth) {
-          updatedStructure[qIndex - third + 1] = 0;
-          setJudging(0);
-          setPerceiving(0);
+          updatedStructure[qIndex - third] = 0; // Reset the current question's answer
+          setJudging((prev) => prev - structure[qIndex - third]); // Adjust judging score
+          setPerceiving((prev) => prev - structure[qIndex - third + 1]); // Adjust perceiving score
           console.log("Structure:", updatedStructure.map(v => (v === 0 ? '-' : v)).join(','));
         }
-
+  
+        // Adjust summary based on the section being navigated back from
+        if (qIndex === first - 1) {
+          setSummary(prev => prev.slice(0, -1)); // Remove the last character if it's the last question in the section
+        } else if (qIndex === second - 1) {
+          setSummary(prev => prev.slice(0, -2)); // Remove the last two characters if it's the last question in the section
+        } else if (qIndex === third - 1) {
+          setSummary(prev => prev.slice(0, -3)); // Remove the last three characters if it's the last question in the section
+        } else if (qIndex === fourth - 1) {
+          setSummary(prev => prev.slice(0, -4)); // Remove the last four characters if it's the last question in the section
+        }
+  
         if (qIndex <= first) {
           setFirstT(firstT - 1);
         } else if (qIndex > first && qIndex <= second) {
@@ -169,7 +179,7 @@ const AssessmentQuestions = () => {
       }
       return;
     }
-
+  
     // Record answer in the appropriate section array
     if (qIndex < first) {
       updatedWorld[qIndex] = value;
@@ -184,13 +194,13 @@ const AssessmentQuestions = () => {
       updatedStructure[qIndex - third] = value;
       console.log("Structure:", updatedStructure.map(v => (v === 0 ? '-' : v)).join(','));
     }
-
+  
     // Update our state arrays
     setWorld(updatedWorld);
     setInformation(updatedInformation);
     setDecision(updatedDecision);
     setStructure(updatedStructure);
-
+  
     // Synchronously calculate totals when a section is complete
     if (qIndex + 1 === first) {
       let newExtroversion = 0;
@@ -202,7 +212,7 @@ const AssessmentQuestions = () => {
           newIntroversion += updatedWorld[i];
         }
       }
-      if(newExtroversion === newIntroversion) {
+      if (newExtroversion === newIntroversion) {
         newExtroversion++;
       }
       setExtroversion(newExtroversion);
@@ -215,7 +225,6 @@ const AssessmentQuestions = () => {
         setPercentW(Math.round((newIntroversion / (newExtroversion + newIntroversion)) * 100));
       }
     }
-
     if (qIndex + 1 === second) {
       let newSensing = 0;
       let newIntuition = 0;
@@ -226,9 +235,9 @@ const AssessmentQuestions = () => {
           newIntuition += updatedInformation[i];
         }
       }
-      if(newSensing === newIntuition) {
+      if (newSensing === newIntuition) {
         newSensing++;
-    }
+      }
       setSensing(newSensing);
       setIntuition(newIntuition);
       if (newSensing > newIntuition) {
@@ -239,7 +248,6 @@ const AssessmentQuestions = () => {
         setPercentI(Math.round((newIntuition / (newSensing + newIntuition)) * 100));
       }
     }
-
     if (qIndex + 1 === third) {
       let newThinking = 0;
       let newFeeling = 0;
@@ -250,7 +258,7 @@ const AssessmentQuestions = () => {
           newFeeling += updatedDecision[i];
         }
       }
-      if(newThinking === newFeeling) {
+      if (newThinking === newFeeling) {
         newThinking++;
       }
       setThinking(newThinking);
@@ -263,7 +271,6 @@ const AssessmentQuestions = () => {
         setPercentD(Math.round((newFeeling / (newThinking + newFeeling)) * 100));
       }
     }
-
     if (qIndex + 1 === fourth) {
       let newJudging = 0;
       let newPerceiving = 0;
@@ -274,7 +281,7 @@ const AssessmentQuestions = () => {
           newPerceiving += updatedStructure[i];
         }
       }
-      if(newJudging === newPerceiving) {
+      if (newJudging === newPerceiving) {
         newJudging++;
       }
       setJudging(newJudging);
@@ -287,7 +294,7 @@ const AssessmentQuestions = () => {
         setPercentS(Math.round((newPerceiving / (newJudging + newPerceiving)) * 100));
       }
     }
-
+  
     // Update gauge tracking counts for each section
     if (qIndex < first) {
       setFirstT(firstT + 1);
@@ -298,7 +305,7 @@ const AssessmentQuestions = () => {
     } else if (qIndex >= third && qIndex < fourth) {
       setFourthT(fourthT + 1);
     }
-
+  
     if (qIndex + 1 <= fourth) {
       setQIndex(qIndex + 1);
     }
@@ -308,7 +315,21 @@ const AssessmentQuestions = () => {
     <div className="assessment-top">
       <div className="assessment-questions-container">
         <div className="back-button-container">
-          <Button variant="contained" onClick={() => handleAnswer("Back")}>
+          <Button 
+            variant="contained" 
+            onClick={() => handleAnswer("Back")} 
+            className="back-button"
+            sx={{
+              backgroundColor: '#444444', // Custom background color
+              color: 'white', // Text color
+              '&:hover': {
+                backgroundColor: '#333333', // Hover color
+              },
+              '&:active': {
+                backgroundColor: '#222222', // Active color
+              },
+            }}
+          >
             Back
           </Button>
         </div>
