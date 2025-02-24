@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 //import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Typography, CircularProgress} from '@mui/material';
 import './AssessmentResult.css'; // Import the CSS file
-import { auth, db } from '../../firebase';
+import { db } from '../../firebase';
 import { getAuth, onAuthStateChanged  } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 const AssessmentResult = () => {
   const auth = getAuth();
   const [user, setUser] = useState({
-    email: "",
+    id: "",
     personalitySummary: "    ", // Default personality
     percentW: 0,
     percentI: 0,
@@ -21,13 +21,13 @@ const AssessmentResult = () => {
   const fetchUserData = async (currentUser) => {
     if(auth.currentUser != null) {
       try {
-        const docRef = doc(db, "Dataset", currentUser.email);
+        const docRef = doc(db, "Dataset", currentUser.email.replace("@forgea.com", ""));
         const docSnap = await getDoc(docRef); // Await the asynchronous getDoc call
     
         if (docSnap.exists()) {
           const data = docSnap.data(); // Retrieve the document's data
           setUser({
-            email: auth.currentUser.email,
+            id: auth.currentUser.email,
             personalitySummary: data.personalitySummary || "",
             percentW: data.percentW || 0,
             percentI: data.percentI || 0,
