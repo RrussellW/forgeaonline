@@ -3,16 +3,10 @@ import React, { useState } from 'react';
 import './LoginSignin.css';
 import { Paper, TextField, Button, Typography, CircularProgress } from '@mui/material';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firestore";
 import { db } from '../../firebase';
-
-const cache = createCache({
-    key: 'css',
-    prepend: true,
-});
 
 const LoginSignin = () => {
     const [disabled, setDisabled] = useState(false);
@@ -111,7 +105,7 @@ const LoginSignin = () => {
     };
 
     return (
-        <CacheProvider value={cache}>
+        <div className='LoginSignin'>
             <Paper elevation={24} className="paperContainer">
                 <Typography variant="h5" className="typographyHeader">
                     Forgea Login
@@ -151,6 +145,7 @@ const LoginSignin = () => {
                         </Typography>
                     )}
                     <Button
+                        sx={{bgcolor:"#444444"}}
                         type="submit"
                         variant="contained"
                         className="button"
@@ -171,7 +166,7 @@ const LoginSignin = () => {
                     </Link>
                 </div>
             </Paper>
-        </CacheProvider>
+        </div>
     );
 };
 

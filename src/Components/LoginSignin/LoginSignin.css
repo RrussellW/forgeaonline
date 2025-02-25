@@ -1,54 +1,67 @@
-/* LoginSignup.css */
+/* LoginSignin.css */
+.LoginSignin {
+        /* Paper container styles */
+        height: 100vh;
+        width: 100vw;
+        background-image: linear-gradient(#F8F1AD, #EDACA3, #E199C8, #B78FD6);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
 
-/* Paper container styles */
-.paperContainer {
-    margin-top: 50px;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 30px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
+    .paperContainer {
+        margin-top: 50px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 30px;
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        height: 350px;
+    }
 
-/* Typography styles */
-.typographyHeader {
-    font-family: 'Inter', sans-serif;
-    text-align: center;
-    margin-bottom: 50px;
-}
+    /* Typography styles */
+    .typographyHeader {
+        font-family: 'Inter', sans-serif;
+        text-align: center;
+        margin-bottom: 50px;
+    }
 
-/* Input fields styles */
-.inputField {
-    margin-bottom: 15px;
-}
+    /* Input fields styles */
+    .inputField {
+        margin-bottom: 15px;
+    }
 
-/* TextField input styles */
-.textFieldRoot .MuiFilledInput-root {
-    border-radius: 12px; /* Rounded corners for input */
-}
+    /* TextField input styles */
+    .textFieldRoot .MuiFilledInput-root {
+        border-radius: 12px; /* Rounded corners for input */
+    }
 
-.textFieldRoot .MuiFilledInput-root:before,
-.textFieldRoot .MuiFilledInput-root:hover:before,
-.textFieldRoot .MuiFilledInput-root.Mui-focused:before {
-    border-bottom: none; /* Remove underline on focus, hover, or default */
-}
+    .textFieldRoot .MuiFilledInput-root:before,
+    .textFieldRoot .MuiFilledInput-root:hover:before,
+    .textFieldRoot .MuiFilledInput-root.Mui-focused:before {
+        border-bottom: none; /* Remove underline on focus, hover, or default */
+    }
 
-/* Button styles */
-.button {
-    background-color: #444444; /* Custom background color */
-    padding: 12px 32px;
-    border-radius: 12px;
-    text-transform: none; /* Keeps text in sentence case */
-    margin-bottom: 12px;
-}
+    /* Button styles */
+    .button {
+        background-color: #444444; /* Custom background color */
+        padding: 12px 32px;
+        border-radius: 12px;
+        text-transform: none; /* Keeps text in sentence case */
+        margin-bottom: 12px;
+        width: 100%;
+    }
 
-.button:hover {
-    background-color: #333333; /* Custom hover color */
-}
+    .button:hover {
+        background-color: #333333; /* Custom hover color */
+    }
 
-.signIn {
-    font-size: small;
+    .signIn {
+        font-size: small;
+    }
 }

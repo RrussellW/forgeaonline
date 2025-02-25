@@ -95,7 +95,7 @@ const LoginSignup = () => {
     };
 
     return (
-        <CacheProvider value={cache}>
+        <div className="LoginSignup">
             <Paper elevation={24} className="paperContainer">
                 <Typography variant="h5" className="typographyHeader">
                     Create an Account
@@ -157,7 +157,7 @@ const LoginSignup = () => {
                     </Link>
                 </div>
             </Paper>
-        </CacheProvider>
+        </div>
     );
 };
 
