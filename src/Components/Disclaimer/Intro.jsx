@@ -1,16 +1,50 @@
 import React, { useState } from 'react';
 import './Intro.css';
-import { Paper, Button, Typography, CircularProgress, Divider, Chip, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
+import { Paper, Button, Typography, CircularProgress, Divider, Chip, Accordion, AccordionSummary, AccordionDetails, Step, StepLabel,
+StepContent, Stepper, Box } from '@mui/material';
+
 import { useNavigate } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-const cache = createCache({
-    key: 'css',
-    prepend: true,
-});
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      success: {
+        main: '#81c784'
+      },
+      error: {
+        main: '#e57373'
+      }
+    },
+  });
+
+  const lightTheme = createTheme({
+    palette: {
+      mode: 'light',
+    },
+  });
 
 const Intro = () => {
+    const [activeStep, setActiveStep] = React.useState(0);
+  
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        if(activeStep === steps.length - 1) {
+            setAccordionExpanded(false);
+        }
+    };
+    
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+    
+    const handleReset = () => {
+        setActiveStep(0);
+    };
+    
+    const [accordionExpanded, setAccordionExpanded] = useState(false);
     const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
 
@@ -21,25 +55,71 @@ const Intro = () => {
         }, 2000);
     };
 
+    const steps = [
+        {
+            label: 'Purpose of the Study',
+            description: `This study investigates the relationship between personality traits 
+            (measured by the Myers-Briggs Type Indicator or MBTI) and academic performance among 
+            Computer Science (CS) and Information Technology (IT) students. By participating, 
+            you will help us develop predictive models using machine learning to enhance academic 
+            guidance tools for future students.`,
+        },
+        {
+            label: 'What You Will Do',
+            description:
+            `You will complete an online MBTI personality assessment, which takes approximately 10-15 minutes.
+             The assessment involves answering questions about your preferences and behaviors. No sensitive 
+             or personally identifiable information will be collected, and all responses will remain anonymous.`,
+        },
+        {
+            label: 'Your Participation is Voluntary',
+            description: `You can choose to participate or withdraw at any time without providing a reason. Withdrawing will 
+            not affect your relationship with the researchers or your institution. If you withdraw before completing
+            the assessment, any collected data will be deleted.`,
+        },
+        {
+            label: 'Risks',
+            description: `There are no significant risks associated with this study. The MBTI assessment consists of 
+            general questions about your preferences and behaviors. If you feel uncomfortable at any point, you may skip
+            questions or leave the assessment.`,
+        },
+        {
+            label: 'Benefits',
+            description: `While there are no direct benefits to you, your participation will heavily contribute to this
+            research. The findings may lead to improved understanding of CS/IT students' personalities.`,
+        },
+        {
+            label: 'Confidentiality',
+            description: `Your responses will be kept strictly confidential. All data will be anonymized, 
+            stored securely, and reported in aggregate form to ensure individual responses cannot be identified.`,
+        },
+      ];
+
     return (
+        <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
         <div className='intro'>
             <Paper elevation={24} className="paperContainerIntro">
                 <Typography variant="h5" className="typographyHeaderIntro" gutterBottom>
-                    MBTI Personality Assessment for CS/IT Student Performance Prediction
+                    Personality Assessment for CS/IT Student Performance Prediction
                 </Typography>
 
                 <Typography variant="body1" paragraph>
                     Thank you for participating in this research study! Below is important information about the assessment.
                 </Typography>
 
-                <Accordion
+                <Accordion className='AccordionIntro'
+                    expanded={accordionExpanded}
                     sx={{ 
                         bgcolor: 'transparent',
                         marginBottom: '1rem',
                         boxShadow: '1',
-                        border: '1px solid #ccc',
+                        border: '1px solid light.primary',
                         borderRadius: '10px',}}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}
+                    onClick={() => setAccordionExpanded(!accordionExpanded)}
+                    sx={{
+                        bgcolor: 'transparent',}}>
                         <Typography variant="h8" gutterBottom>
                             Informed Consent Form
                         </Typography>
@@ -47,36 +127,53 @@ const Intro = () => {
 
                     <AccordionDetails
                         sx={{
-                            bgcolor: '#FFFFFF',
+                            bgcolor: 'transparent',
                             borderRadius: '10px',
                         }}>
-                    <Typography variant="body2" paragraph className="justify-text">
-                    <p/>
-                    <Divider><strong><Chip label="Purpose of the Study" variant="outlined" /></strong></Divider> This study investigates the relationship between personality traits (measured by the Myers-Briggs Type Indicator or MBTI) and academic performance among Computer Science (CS) and Information Technology (IT) students. By participating, you will help us develop predictive models using machine learning to enhance academic guidance tools for future students.
-                </Typography>
-
-                <Typography variant="body2" paragraph className="justify-text">
-                    <Divider><strong><Chip label="What You Will Do" variant="outlined" /></strong></Divider>
-                    You will complete an online MBTI personality assessment, which takes approximately 10–15 minutes. The assessment involves answering questions about your preferences and behaviors. No sensitive or personally identifiable information will be collected, and all responses will remain anonymous.
-                </Typography>
-
-                <Typography variant="body2" paragraph className="justify-text">
-                    <Divider><strong><Chip label="Your Participation is Voluntary" variant="outlined" /></strong></Divider> You can choose to participate or withdraw at any time without providing a reason. Withdrawing will not affect your relationship with the researchers or your institution. If you withdraw before completing the assessment, any collected data will be deleted.
-                </Typography>
-
-                
-
-                <Typography variant="body2" paragraph className="justify-text">
-                    <Divider><strong><Chip label="Risks" variant="outlined" /></strong></Divider> There are no significant risks associated with this study. The MBTI assessment consists of general questions about your preferences and behaviors. If you feel uncomfortable at any point, you may skip questions or leave the assessment.
-                </Typography>
-
-                <Typography variant="body2" paragraph className="justify-text">
-                    <Divider><strong><Chip label="Benefits" variant="outlined" /></strong></Divider> While there are no direct benefits to you, your participation will heavily contribute to this research. The findings may lead to improved understanding of CS/IT students' personalities.
-                </Typography>
-
-                <Typography variant="body2" paragraph className="justify-text">
-                    <Divider><strong><Chip label="Confidentiality" variant="outlined" /></strong></Divider> Your responses will be kept strictly confidential. All data will be anonymized, stored securely, and reported in aggregate form to ensure individual responses cannot be identified.
-                </Typography>
+                    <Stepper activeStep={activeStep} orientation="vertical" >
+                        {steps.map((step, index) => (
+                        <Step key={step.label}>
+                            <StepLabel
+                            optional={
+                                index === steps.length - 1 ? (
+                                <Typography variant="caption">Last step</Typography>
+                                ) : null
+                            }
+                            >
+                            {step.label}
+                            </StepLabel>
+                            <StepContent >
+                            <Typography>{step.description}</Typography>
+                            <Box sx={{ mb: 2 }}>
+                                <Button
+                                variant="contained"
+                                onClick={handleNext}
+                                sx={{ mt: 1, mr: 1 }}
+                                color='primary'
+                                >
+                                {index === steps.length - 1 ? 'Finish' : 'Next'}
+                                </Button>
+                                <Button
+                                disabled={index === 0}
+                                onClick={handleBack}
+                                sx={{ mt: 1, mr: 1 }}
+                                color='error'
+                                >
+                                Back
+                                </Button>
+                            </Box>
+                            </StepContent>
+                        </Step>
+                        ))}
+                    </Stepper>
+                    {activeStep === steps.length && accordionExpanded && (
+                        <Paper square elevation={0} sx={{ p: 3, bgcolor: 'transparent' }}>
+                        <Typography>All steps completed - form is finished</Typography>
+                        <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }} color='error'>
+                            Back
+                        </Button>
+                        </Paper>
+                    )}
                     </AccordionDetails>
                         
                 </Accordion>
@@ -95,7 +192,7 @@ const Intro = () => {
                         size="large"
                         onClick={handleStartTest}
                         disabled={disabled}
-                        className="button"
+                        className="buttonGradient"
                     >
                         {disabled ? <CircularProgress size={24} /> : 'Start Personality Assessment'}
                     </Button>
@@ -103,6 +200,7 @@ const Intro = () => {
             </Paper>
             <div>&#8203;</div>
         </div>
+        </ThemeProvider>
     );
 };
 

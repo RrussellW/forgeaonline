@@ -1,7 +1,7 @@
 // Import React and necessary hooks
 import React, { useState } from 'react';
 import './LoginSignin.css';
-import { Paper, TextField, Button, Typography, CircularProgress, Grid2, Tooltip } from '@mui/material';
+import { Paper, TextField, Button, Typography, CircularProgress, Grid2, Tooltip, Divider } from '@mui/material';
 import createCache from '@emotion/cache';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -119,6 +119,9 @@ const LoginSignin = () => {
                 <Grid2 container spacing={0} direction="row" className="MainGridContainer" columnGap={0}>
                     <Grid2>
                         <Paper elevation={24} className="paperContainerLeft">
+                            <Typography variant="h6" className="typographyHeader">
+                                <strong className='strongYellow'>Log-in</strong> to your Account
+                            </Typography>
                             <form onSubmit={handleSubmit}>
                                 <div className="inputField">
                                     <Tooltip title="Example Student ID: 11-1111-111" arrow>
@@ -181,9 +184,11 @@ const LoginSignin = () => {
                         <Typography variant="h5" className="typographyHeader" color='white' marginTop={7}>
                             <strong>Welcome to Forgea</strong>
                         </Typography>
-                        <Typography variant="h8" className="typographyHeader" color='white'>
-                            Don't have an account?
-                        </Typography>
+                        <Divider>
+                            <Typography variant="body2"  color='white'>
+                                Don't have an Account?
+                            </Typography>
+                        </Divider>
                         <p/>
                         <div className='signIn' marginTop={10}>
                             <Button variant='outlined' color='dark.primary' onClick={() => navigate('/signup')} className="buttonSignup">

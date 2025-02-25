@@ -1,7 +1,7 @@
 /* LoginSignin.css */
 .LoginSignin {
         /* Paper container styles */
-        height: 100vh;
+        min-height: 100vh;
         width: 100vw;
         /*background-image: linear-gradient(#F8F1AD, #EDACA3, #E199C8, #B78FD6);*/
         background-color: #1E1E1E;
@@ -16,7 +16,6 @@
     }
     
     .paperContainerLeft {
-        margin-top: 50px;
         max-width: 400px;
         margin-left: auto;
         margin-right: auto;
@@ -29,12 +28,15 @@
         backdrop-filter: blur(10px);
         box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
         width: 500px;
-        height: 350px;
+        height: 450px;
         
     }
+    .strongYellow {
+        color: #F8F1AD;
+    }
+    
     .paperContainerRight {
-        background-image: linear-gradient(130deg,#F8F1AD, #EDACA3, #E199C8, #B78FD6);
-        margin-top: 50px;
+        background-image: linear-gradient(170deg,#F8F1AD, #EDACA3, #E199C8, #B78FD6);
         max-width: 400px;
         margin-left: auto;
         margin-right: auto;
@@ -47,7 +49,7 @@
         backdrop-filter: blur(10px);
         box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
         width: 500px;
-        height: 350px;
+        height: 450px;
         align-items: center;
         text-align: center;
         
@@ -103,7 +105,9 @@
     .buttonSignup:hover {
         /*filter: contrast(1.0); /* Custom hover color */
         /*filter: contrast(1.9);*/
-        background-color: #444444;
+        border-color: transparent;
+        color: white;
+        zoom: .98;
         
     }
 
@@ -112,7 +116,7 @@
         font-size: small;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 0px) {
         .MainGridContainer {
             margin: 0px;
             padding: 0px;

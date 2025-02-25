@@ -141,6 +141,8 @@ const AssessmentQuestions = () => {
         setStructure((prev) => prev.slice(0, -1));
         setFourthT((prev) => prev - 1);
       }
+    } else {
+      navigate('/Disclaimer');
     }
   };
 
@@ -374,7 +376,7 @@ const AssessmentQuestions = () => {
             </div>
           )}
           {qIndex >= 32 && (
-            <Button variant="contained" color="success" onClick={() => proceedResults()}>
+            <Button variant="contained" color="success" onClick={() => proceedResults()} className="proceed-button">
               Proceed
             </Button>
           )}

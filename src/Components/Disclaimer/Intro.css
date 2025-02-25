@@ -1,16 +1,49 @@
+
 .intro {
     /* Paper container styles */
+        min-height: 100vh;
+        width: 100vw;
+        /*background-image: linear-gradient(#F8F1AD, #EDACA3, #E199C8, #B78FD6);*/
+        background-color: #1E1E1E;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+
     .paperContainerIntro {
         margin-top: 50px;
-        max-width: 400px;
+        max-width: 600px;
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 50px;
         padding: 30px;
         border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.7);
         backdrop-filter: blur(10px);
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+        width: 600px;
+        backdrop-filter: blur(10px);
+    }
+
+    .AccordionIntro {
+        border-color: 'transparent';
+    }
+
+    .buttonGradient {
+        background-color: #444444; /* Custom background color */
+        background-image: linear-gradient(130deg,#F8F1AD, #EDACA3, #E199C8, #B78FD6);
+        padding: 12px 32px;
+        border-radius: 12px;
+        text-transform: none; /* Keeps text in sentence case */
+        margin-bottom: 12px;
+        width: 100%;
+    }
+    
+    .buttonGradient:hover {
+        /*filter: contrast(1.0); /* Custom hover color */
+        filter: brightness(1.2);
+        background-image: linear-gradient(130deg,#B78FD6,#E199C8,#EDACA3, #F8F1AD);
     }
 
     /* Typography styles */

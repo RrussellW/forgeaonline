@@ -39,6 +39,11 @@
     .back-button:active {
         background-color: #222222; /* Darker color for active state */
     }
+
+    .proceed-button {
+        margin: auto;
+        display: block;
+    }
     
     
     /* Typography styles for question and question number */
