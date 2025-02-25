@@ -1,12 +1,20 @@
 // Import React and necessary hooks
 import React, { useState } from 'react';
 import './LoginSignin.css';
-import { Paper, TextField, Button, Typography, CircularProgress } from '@mui/material';
+import { Paper, TextField, Button, Typography, CircularProgress, Grid2, Tooltip } from '@mui/material';
 import createCache from '@emotion/cache';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firestore";
 import { db } from '../../firebase';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
 
 const LoginSignin = () => {
     const [disabled, setDisabled] = useState(false);
@@ -105,68 +113,88 @@ const LoginSignin = () => {
     };
 
     return (
-        <div className='LoginSignin'>
-            <Paper elevation={24} className="paperContainer">
-                <Typography variant="h5" className="typographyHeader">
-                    Forgea Login
-                </Typography>
-                <form onSubmit={handleSubmit}>
-                    <div className="inputField">
-                        <TextField
-                            variant="filled"
-                            label="User ID"
-                            name="email"
-                            type="text"
-                            value={formData.email}
-                            onChange={handleChange}
-                            fullWidth
-                            error={!!errors.email}
-                            helperText={errors.email}
-                            className="textFieldRoot"
-                        />
-                    </div>
-                    <div className="inputField">
-                        <TextField
-                            variant="filled"
-                            label="Password"
-                            name="password"
-                            type="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            fullWidth
-                            error={!!errors.password}
-                            helperText={errors.password}
-                            className="textFieldRoot"
-                        />
-                    </div>
-                    {firebaseError && (
-                        <Typography color="error" className="firebaseError">
-                            {firebaseError}
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <div className='LoginSignin'>
+                <Grid2 container spacing={0} direction="row" className="MainGridContainer" columnGap={0}>
+                    <Grid2>
+                        <Paper elevation={24} className="paperContainerLeft">
+                            <form onSubmit={handleSubmit}>
+                                <div className="inputField">
+                                    <Tooltip title="Example Student ID: 11-1111-111" arrow>
+                                    <TextField
+                                        color='primary'
+                                        variant="filled"
+                                        label="Student ID"
+                                        Tooltip="Example Student ID: 11-1111-111"
+                                        name="email"
+                                        type="text"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        error={!!errors.email}
+                                        helperText={errors.email}
+                                        className="textFieldRoot"
+                                    />
+                                    </Tooltip>
+                                </div>
+                                <div className="inputField">
+                                    <TextField
+                                        variant="filled"
+                                        label="Password"
+                                        name="password"
+                                        type="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        error={!!errors.password}
+                                        helperText={errors.password}
+                                        className="textFieldRoot"
+                                    />
+                                </div>
+                                {firebaseError && (
+                                    <Typography color="error" className="firebaseError">
+                                        {firebaseError}
+                                    </Typography>
+                                )}
+                                <Button
+                                    sx={{bgcolor:"#444444"}}
+                                    type="submit"
+                                    variant="contained"
+                                    className="button"
+                                    disabled={disabled}
+                                >
+                                    {!disabled &&
+                                        (<>Sign In</>)
+                                    }
+                                    {disabled &&
+                                        <CircularProgress color="inherit" size="30px"/>
+                                    }
+                                    
+                                </Button>
+                            </form>
+                            
+                        </Paper>
+                    </Grid2>
+                    <Grid2 className="GridSignup">
+                        <Paper elevation={24} className="paperContainerRight" >
+                        <Typography variant="h5" className="typographyHeader" color='white' marginTop={7}>
+                            <strong>Welcome to Forgea</strong>
                         </Typography>
-                    )}
-                    <Button
-                        sx={{bgcolor:"#444444"}}
-                        type="submit"
-                        variant="contained"
-                        className="button"
-                        disabled={disabled}
-                    >
-                        {!disabled &&
-                            (<>Sign In</>)
-                        }
-                        {disabled &&
-                            <CircularProgress color="inherit" size="30px"/>
-                        }
+                        <Typography variant="h8" className="typographyHeader" color='white'>
+                            Don't have an account?
+                        </Typography>
+                        <p/>
+                        <div className='signIn' marginTop={10}>
+                            <Button variant='outlined' color='dark.primary' onClick={() => navigate('/signup')} className="buttonSignup">
+                                Sign Up
+                            </Button>
+                        </div></Paper>
                         
-                    </Button>
-                </form>
-                <div className='signIn'>
-                    <Link to="/signup" className='signIn'>
-                        Don't have an account? Sign Up
-                    </Link>
-                </div>
-            </Paper>
-        </div>
+                    </Grid2>
+                </Grid2>
+            </div>
+        </ThemeProvider>
     );
 };
 

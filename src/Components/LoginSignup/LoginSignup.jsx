@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LoginSignup.css';
-import { Paper, TextField, Button, Typography, CircularProgress } from '@mui/material';
+import { Paper, TextField, Button, Typography, CircularProgress, Tooltip } from '@mui/material';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -102,6 +102,7 @@ const LoginSignup = () => {
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <div className="inputField">
+                        <Tooltip title="Example Student ID: 11-1111-111" arrow>
                         <TextField
                             variant="filled"
                             label="Student ID"
@@ -113,6 +114,7 @@ const LoginSignup = () => {
                             helperText={errors.studentId}
                             className="textFieldRoot"
                         />
+                        </Tooltip>
                     </div>
                     <div className="inputField">
                         <TextField
