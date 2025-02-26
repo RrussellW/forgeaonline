@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import './LoginSignin.css';
 import { Paper, TextField, Button, Typography, CircularProgress, Grid2, Tooltip, Divider } from '@mui/material';
 import createCache from '@emotion/cache';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firestore";
 import { db } from '../../firebase';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { delay, motion } from 'framer-motion';
 
 const darkTheme = createTheme({
     palette: {
@@ -16,7 +17,51 @@ const darkTheme = createTheme({
     },
   });
 
+
+  function PageWrapper({children}) {
+    return(
+      <motion.div
+        initial={{opacity: 0, transition:{duration: 0.4}}}
+        animate={{opacity: 1, transition:{duration: 0.4, delay:1.2} }}
+        exit={{opacity: 0, transition:{duration: 0.4}}}
+      >
+        {children}
+      </motion.div>
+    )
+  }
+  //Gadient
+  function PageWrapperLR({children}) {
+      return(
+        <motion.div
+          initial={{opacity: 1, x:-400, rotate:180, transition:{}}}
+          animate={[
+            {rotate:0, transition:{duration: 0.6}},
+            {x:0, transition:{delay:0.6}}
+        ]}
+        >
+          {children}
+        </motion.div>
+      )
+    }
+    //Grey
+    function PageWrapperRL({children}) {
+      return(
+        <motion.div
+          initial={{opacity: 0, x:0, transition:{}}}
+          animate={{opacity: 1, x:0, transition:{delay:1.2}}}
+          exit={{opacity: 0, x:0, transition:{}}}
+        >
+          {children}
+        </motion.div>
+      )
+    }
+
+
 const LoginSignin = () => {
+
+    const [fadeOut, setFadeOut] = useState(false);
+
+        
     const [disabled, setDisabled] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
@@ -79,6 +124,7 @@ const LoginSignin = () => {
         const auth = getAuth();
         signInWithEmailAndPassword(auth, emailWithDomain, formData.password)
             .then(async () => {
+                setFadeOut(true);
                 const q = query(collection(db, "Users"), where("email", "==", emailWithDomain));
                 const querySnapshot = await getDocs(q);
                 if (querySnapshot.empty) {
@@ -116,9 +162,16 @@ const LoginSignin = () => {
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <div className='LoginSignin'>
+                <motion.div
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: fadeOut ? 0 : 1 }}
+                    transition={{ duration: 0.5 }}
+                >
                 <Grid2 container spacing={0} direction="row" className="MainGridContainer" columnGap={0}>
+                    <PageWrapperRL>
                     <Grid2>
                         <Paper elevation={24} className="paperContainerLeft">
+                            <PageWrapper>
                             <Typography variant="h6" className="typographyHeader">
                                 <strong className='strongYellow'>Log-in</strong> to your Account
                             </Typography>
@@ -155,6 +208,7 @@ const LoginSignin = () => {
                                         className="textFieldRoot"
                                     />
                                 </div>
+                                
                                 {firebaseError && (
                                     <Typography color="error" className="firebaseError">
                                         {firebaseError}
@@ -176,11 +230,17 @@ const LoginSignin = () => {
                                     
                                 </Button>
                             </form>
-                            
+                            </PageWrapper>
                         </Paper>
+                    
+                        
                     </Grid2>
+                    </PageWrapperRL>
+                    
                     <Grid2 className="GridSignup">
+                    <PageWrapperLR>
                         <Paper elevation={24} className="paperContainerRight" >
+                            <PageWrapper>
                         <Typography variant="h5" className="typographyHeader" color='white' marginTop={7}>
                             <strong>Welcome to Forgea</strong>
                         </Typography>
@@ -194,10 +254,15 @@ const LoginSignin = () => {
                             <Button variant='outlined' color='dark.primary' onClick={() => navigate('/signup')} className="buttonSignup">
                                 Sign Up
                             </Button>
-                        </div></Paper>
+                        </div>
+                        </PageWrapper>
+                        </Paper>
+                        </PageWrapperLR>
+                        
                         
                     </Grid2>
                 </Grid2>
+                </motion.div>
             </div>
         </ThemeProvider>
     );
