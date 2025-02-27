@@ -98,10 +98,23 @@
     .answers {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
+        width: 100%px;
+        max-width: 600px;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .answers-top {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
         align-items: center;
         width: 100%;
         max-width: 600px;
+        min-width: 55px;
         margin-top: 20px;
         margin-left: auto;
         margin-right: auto;
@@ -143,6 +156,12 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
+
+    .button-7-top {
+        width: 70px;
+        height: 70px;
+        margin: 0 10px;
+    }
     
     .button-6 {
         width: 60px;
@@ -153,6 +172,12 @@
         border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
+    }
+
+    .button-6-top {
+        width: 60px;
+        height: 60px;
+        margin: 0 10px;
     }
     
     .button-5 {
@@ -165,6 +190,12 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
+
+    .button-5-top {
+        width: 50px;
+        height: 50px;
+        margin: 0 10px;
+    }
     
     .button-center {
         width: 40px;
@@ -175,6 +206,12 @@
         border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
+    }
+
+    .button-center-top {
+        width: 40px;
+        height: 40px;
+        margin: 0 10px;
     }
     
     .button-3 {
@@ -187,6 +224,12 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
+
+    .button-3-top {
+        width: 50px;
+        height: 50px;
+        margin: 0 10px;
+    }
     
     .button-2 {
         width: 60px;
@@ -198,6 +241,12 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
+
+    .button-2-top {
+        width: 60px;
+        height: 60px;
+        margin: 0 10px;
+    }
     
     .button-1 { 
         width: 70px;
@@ -208,6 +257,12 @@
         border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
+    }
+
+    .button-1-top {
+        width: 70px;
+        height: 70px;
+        margin: 0 10px;
     }
     
     /* Hover effect for the buttons */

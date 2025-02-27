@@ -360,21 +360,15 @@ const AssessmentQuestions = () => {
         </div>
         <div className="answers-container">
           {qIndex < 32 && (
-            <div className="answers">
+            <div className="answers-top">
               {/* Left label for Agree */}
               <div className="button-container"></div>
               <div className="label-left">Agree</div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
-              <div className="button-container"></div>
+              <div className="button-container"><div className="button-6-top"/></div>
+              <div className="button-container"><div className="button-5-top"/></div>
+              <div className="button-container"><div className="button-center-top"/></div>
+              <div className="button-container"><div className="button-3-top"/></div>
+              <div className="button-container"><div className="button-2-top"/></div>
               {/* Right label for Disagree */}
               <div className="label-right">Disagree</div>
               <div className="button-container"></div>
