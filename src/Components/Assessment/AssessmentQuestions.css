@@ -129,6 +129,7 @@
         display: flex;
         justify-content: center; /* Center the buttons */
         align-items: center;
+        max-width: max-content;
     }
     
     /* Styling for the circular buttons with varying sizes */
