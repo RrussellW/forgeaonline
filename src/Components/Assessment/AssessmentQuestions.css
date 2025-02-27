@@ -128,6 +128,7 @@
         display: flex;
         justify-content: center; /* Center the buttons */
         align-items: center;
+        width: fit-content;
     }
     
     /* Styling for the circular buttons with varying sizes */
@@ -271,6 +272,10 @@
         .assessment-container {
             padding: 20px;
             max-width: 90%;
+        }
+
+        .button-container {
+            transform: scale(0.8);
         }
     
         .question {
