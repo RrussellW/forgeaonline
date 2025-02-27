@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { delay, motion } from 'framer-motion';
 
 
 const darkTheme = createTheme({
@@ -28,6 +29,80 @@ const lightTheme = createTheme({
   },
 });
 
+function Blink({children}) {
+  return(
+    <motion.div
+      initial={{y:10 ,opacity: 0}}
+      animate={{y:0, opacity: 1}}
+      transition={{
+        duration: 0.4
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function Blink2({children}) {
+  return(
+    <motion.div
+      initial={{y:-10 ,opacity: 0}}
+      animate={{y:0, opacity: 1}}
+      transition={{
+        duration: 0.2
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function Bounce({children}) {
+  return(
+    <motion.div
+      initial={{opacity: 0, scale: 0 }}
+      animate={{opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.4,
+        scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function Bounce2({children}) {
+  return(
+    <motion.div
+      initial={{opacity: 0, scale: 0 }}
+      animate={{opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.5,
+        delay:0.2,
+        scale: { type: "spring", visualDuration: 0.4, bounce: 0.6 },
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function Bounce3({children}) {
+  return(
+    <motion.div
+      initial={{opacity: 0, scale: 0 }}
+      animate={{opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.5,
+        delay: 0.4,
+        scale: { type: "spring", visualDuration: 0.4, bounce: 0.7 },
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 const AssessmentQuestions = () => {
   const navigate = useNavigate();
@@ -303,19 +378,20 @@ const AssessmentQuestions = () => {
           </Button>
         </div>
         {qIndex < 32 && (
+          <Blink>
           <div 
             className={`question-number ${isFading ? 'fade-out' : ''}`}
             style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
             {(qIndex + 1)} of {worldQ.length + informationQ.length + decisionQ.length + structureQ.length}
-            
           </div>
+          </Blink>
         )}
         {qIndex >= 32 && (
           <div className="question-number">
             Finished Assessment
           </div>
         )}
-        <div className="gauge-container">
+        <Blink2 className="gauge-container">
           <Stack direction={{ xs: 'row', md: 'row' }} spacing={{}}>
             <Gauge
               width={100}
@@ -354,7 +430,7 @@ const AssessmentQuestions = () => {
               })}
             />
           </Stack>
-        </div>
+        </Blink2>
         <div className={`question ${isFading ? 'fade-out' : ''}`}>
           {qIndex < fourth && proceedAssessment()}
         </div>
@@ -377,35 +453,35 @@ const AssessmentQuestions = () => {
           {qIndex < 32 && (
             <div className="answers">
               {/* Left label for Agree */}
-              <div className="label-left"> </div>
+              <Bounce className="label-left"> </Bounce>
               {/* Leftmost button (largest) */}
-              <div className="button-container">
+              <Bounce3 className="button-container">
                 <button onClick={() => handleAnswer(7)} className="button-7"></button>
-              </div>
+              </Bounce3>
               {/* Second button */}
-              <div className="button-container">
+              <Bounce2 className="button-container">
                 <button onClick={() => handleAnswer(6)} className="button-6"></button>
-              </div>
+              </Bounce2>
               {/* Third button */}
-              <div className="button-container">
+              <Bounce2 className="button-container">
                 <button onClick={() => handleAnswer(5)} className="button-5"></button>
-              </div>
+              </Bounce2>
               {/* Center button (smallest) */}
-              <div className="button-container">
+              <Bounce className="button-container">
                 <button onClick={() => handleAnswer(4)} className="button-center"></button>
-              </div>
+              </Bounce>
               {/* Fifth button */}
-              <div className="button-container">
+              <Bounce2 className="button-container">
                 <button onClick={() => handleAnswer(3)} className="button-3"></button>
-              </div>
+              </Bounce2>
               {/* Sixth button */}
-              <div className="button-container">
+              <Bounce2 className="button-container">
                 <button onClick={() => handleAnswer(2)} className="button-2"></button>
-              </div>
+              </Bounce2>
               {/* Rightmost button (largest) */}
-              <div className="button-container">
+              <Bounce3 className="button-container">
                 <button onClick={() => handleAnswer(1)} className="button-1"></button>
-              </div>
+              </Bounce3>
               {/* Right label for Disagree */}
               <div className="label-right"> </div>
             </div>
