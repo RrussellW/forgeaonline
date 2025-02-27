@@ -1,4 +1,30 @@
 /* Assessment container styles */
+.answers {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    min-width: 55px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.answers-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    min-width: 55px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .assessment-top{
     background-color: #1E1E1E; /* Match intro.css background */
     background-repeat: no-repeat;
@@ -95,31 +121,7 @@
     }
     
     /* Answers section styles */
-    .answers {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        max-width: 600px;
-        min-width: 55px;
-        margin-top: 20px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .answers-top {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        max-width: 600px;
-        min-width: 55px;
-        margin-top: 20px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+    
     
     /* Label styles for Agree and Disagree */
     .label-left,
