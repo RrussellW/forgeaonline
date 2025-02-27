@@ -33,11 +33,15 @@ const Intro = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         if(activeStep === steps.length - 1) {
             setAccordionExpanded(false);
+            setConsentFinished(true);
         }
     };
     
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        if (activeStep === steps.length) {
+            setConsentFinished(false);
+        }
     };
     
     const handleReset = () => {
@@ -45,6 +49,7 @@ const Intro = () => {
     };
     
     const [accordionExpanded, setAccordionExpanded] = useState(false);
+    const [consentFinished, setConsentFinished] = useState(false);
     const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
 
@@ -134,6 +139,17 @@ const Intro = () => {
                         {steps.map((step, index) => (
                         <Step key={step.label}>
                             <StepLabel
+                            sx={{ 
+                                '& .MuiStepIcon-root': { 
+                                  color: '#B78FD6', // Change the circle color
+                                },
+                                '& .Mui-active .MuiStepIcon-root': { 
+                                  color: '#E199C8', // Change color when active
+                                },
+                                '& .Mui-completed .MuiStepIcon-root': { 
+                                  color: '#F8F1AD', // Change color when step is completed
+                                }
+                              }}
                             optional={
                                 index === steps.length - 1 ? (
                                 <Typography variant="caption">Last step</Typography>
@@ -148,11 +164,18 @@ const Intro = () => {
                                 <Button
                                 variant="contained"
                                 onClick={handleNext}
-                                sx={{ mt: 1, mr: 1 }}
-                                color='primary'
+                                sx={{ 
+                                    mt: 1, 
+                                    mr: 1, 
+                                    background:  '#B78FD6', 
+                                    color: 'white', 
+                                    '&:hover': { 
+                                    filter: 'brightness(1.2)', 
+                                    }
+                                }}
                                 >
                                 {index === steps.length - 1 ? 'Finish' : 'Next'}
-                                </Button>
+                                </Button>   
                                 <Button
                                 disabled={index === 0}
                                 onClick={handleBack}
@@ -168,7 +191,7 @@ const Intro = () => {
                     </Stepper>
                     {activeStep === steps.length && accordionExpanded && (
                         <Paper square elevation={0} sx={{ p: 3, bgcolor: 'transparent' }}>
-                        <Typography>All steps completed - form is finished</Typography>
+                        <Typography>All steps completed! Form is finished.</Typography>
                         <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }} color='error'>
                             Back
                         </Button>
@@ -191,10 +214,10 @@ const Intro = () => {
                         variant="contained"
                         size="large"
                         onClick={handleStartTest}
-                        disabled={disabled}
+                        disabled={!consentFinished || disabled}
                         className="buttonGradient"
                     >
-                        {disabled ? <CircularProgress size={24} /> : 'Start Personality Assessment'}
+                        {disabled ? <CircularProgress color="inherit" size={30} /> : 'Start Personality Assessment'}
                     </Button>
                 </div>
             </Paper>

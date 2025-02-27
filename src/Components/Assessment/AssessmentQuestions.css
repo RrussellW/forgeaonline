@@ -1,34 +1,40 @@
 /* Assessment container styles */
 .assessment-top{
+    background-color: #1E1E1E; /* Match intro.css background */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    
     .assessment-questions-container {
         position: relative;
         margin-top: 50px;
+        width: 100%;
         max-width: 635px;
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 50px;
         padding: 30px;
         border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+        height: fit-content;
         backdrop-filter: blur(10px); /* Adds a blurred background effect */
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     }
     
     .back-button-container {
         position: absolute;
         top: 30px;
         left: 30px;
+        width: 50%;
     }
     
     .back-button {
         background-color: #444444; /* Custom background color */
-        padding: 12px 32px;
-        border-radius: 12px;
-        text-transform: none; /* Keeps text in sentence case */
-        margin-bottom: 12px;
+        border-radius: 10px;
         color: white; /* Ensure text color is white */
-        font-weight: bold; /* Make text bold */
-        width: 100%; /* Make button full width */
         transition: background-color 0.3s ease; /* Smooth transition for hover effect */
     }
     
@@ -43,6 +49,19 @@
     .proceed-button {
         margin: auto;
         display: block;
+        background-color: #444444; /* Custom background color */
+        background-image: linear-gradient(130deg,#F8F1AD, #EDACA3, #E199C8, #B78FD6);
+        padding: 12px 32px;
+        border-radius: 12px;
+        text-transform: none; /* Keeps text in sentence case */
+        margin-bottom: 12px;
+        width: 25%;
+    }
+
+    .proceed-button:hover {
+        /*filter: contrast(1.0); /* Custom hover color */
+        filter: brightness(1.2);
+        background-image: linear-gradient(130deg,#B78FD6,#E199C8,#EDACA3, #F8F1AD);
     }
     
     
@@ -52,18 +71,27 @@
         font-size: 16px;
         text-align: center;
         margin-bottom: 15px;
-        color: #444; /* Dark grey color for better visibility */
+        color: white;
     }
     
     .question {
         font-family: 'Inter', sans-serif;
-        font-size: 18px;
+        font-size: 20px;
         text-align: center;
-        margin-bottom: 30px;
-        color: #333;
+        margin: 30px 0;
+        color: white;
         line-height: 1.5;
-        font-weight: 500;
+        font-weight: 500;   
         height: 100px;
+    }
+
+    .question-number, .question {
+        opacity: 1;
+        transition: opacity 0.2s; /* Fast fade transition */
+      }
+
+    .fade-out {
+        opacity: 0.6;
     }
     
     /* Answers section styles */
@@ -84,6 +112,7 @@
         font-size: 14px;
         font-weight: bold;
         text-align: center;
+        color: white;
     }
     
     .label-left {
@@ -103,91 +132,102 @@
     
     /* Styling for the circular buttons with varying sizes */
     .button-7 {
-        width: 55px;
-        height: 55px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         margin: 0 10px;
         background-color: #F8F1AD;
-        border: 1px solid #555555; /* Green for Agree */
+        border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
     }
     
     .button-6 {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         margin: 0 10px;
         background-color: #F2CEA8;
-        border: 1px solid #555555; /* Green for Agree */
+        border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
     }
     
     .button-5 {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         margin: 0 10px;
         background-color: #EDACA3;
-        border: 1px solid #555555; /* Green for Agree */
+        border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
     }
     
     .button-center {
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         margin: 0 10px;
         background-color: #E79EB1;
-        border: 1px solid #555555; /* Yellow for Neutral */
+        border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
     }
     
     .button-3 {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         margin: 0 10px;
         background-color: #E199C8;
-        border: 1px solid #555555; /* Red for Disagree */
+        border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
     }
     
     .button-2 {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         margin: 0 10px;
         background-color: #D894DC;
-        border: 1px solid #555555; /* Red for Disagree */
+        border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
     }
     
     .button-1 { 
-        width: 55px;
-        height: 55px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         margin: 0 10px;
         background-color: #B78FD6;
-        border: 1px solid #555555; /* Red for Disagree */
+        border: 0px;
         cursor: pointer;
         transition: all 0.3s ease;
     }
     
     /* Hover effect for the buttons */
-    button:hover {
-        filter: brightness(1.2);
+    .answers button:hover {
+        filter: brightness(0.7);
         color: brightness(1.2); /* Change text color to white */
+        transform: scale(1.2);
+        box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.0);
     }
     
     /* Button press effect */
-    button:active {
-        transform: scale(0.95); /* Slight scale down on button press */
+    .answers button:active {
+        transform: scale(0.85); /* More noticeable press effect */
+        box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8); /* Outer glow effect */
+        filter: brightness(0.9); /* Slight darkening */
+        transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease; /* Smooth transition */
+    }
+    
+
+    .gauge-container {
+        margin: 0;
+        padding: 0;
     }
     
     /* Responsive styling for smaller devices */
@@ -266,5 +306,9 @@
             transform: scale(0.8); /* Scale down uniformly */
         }   
     }
-    
+
+    .css-1sh91j5-MuiButton-startIcon{
+        margin: 0px;
+    }
+
 }

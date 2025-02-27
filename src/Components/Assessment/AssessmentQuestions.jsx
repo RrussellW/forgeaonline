@@ -1,10 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
-import { Stack, Button } from '@mui/material';
+import { Paper, Stack, Button} from '@mui/material';
 import { auth, db } from '../../firebase';
 import { doc, setDoc } from "firebase/firestore";
 import "./AssessmentQuestions.css";
 import { useNavigate } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    success: {
+      main: '#81c784'
+    },
+    error: {
+      main: '#e57373'
+    }
+  },
+});
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
 
 
 const AssessmentQuestions = () => {
@@ -19,6 +41,19 @@ const AssessmentQuestions = () => {
   const[information, setInformation] = useState([]);
   const[decision, setDecision] = useState([]);
   const[structure, setStructure] = useState([]);
+
+  const [isFading, setIsFading] = useState(false);
+  const [displayQuestion, setDisplayQuestion] = useState("");
+
+  useEffect(() => {
+    setIsFading(true); 
+    const timeout = setTimeout(() => {
+      setDisplayQuestion(proceedAssessment()); 
+      setIsFading(false);
+    }, 200);
+
+    return () => clearTimeout(timeout);
+  }, [qIndex]);
 
   var worldType = "";
   var informationType = "";
@@ -243,16 +278,20 @@ const AssessmentQuestions = () => {
   }
 
   return (
+    <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
     <div className="assessment-top">
-      <div className="assessment-questions-container">
-        <div className="back-button-container">
+    <Paper elevation={24} className="assessment-questions-container">
+        <div 
+          className="back-button-container"
+          style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
           <Button 
+            startIcon={<ArrowBackIcon />}
             variant="contained" 
             onClick={() => handleBack()} 
             className="back-button"
             sx={{
               backgroundColor: '#444444', // Custom background color
-              color: 'white', // Text color
               '&:hover': {
                 backgroundColor: '#333333', // Hover color
               },
@@ -261,12 +300,14 @@ const AssessmentQuestions = () => {
               },
             }}
           >
-            Back
           </Button>
         </div>
         {qIndex < 32 && (
-          <div className="question-number">
+          <div 
+            className={`question-number ${isFading ? 'fade-out' : ''}`}
+            style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none' }}>
             {(qIndex + 1)} of {worldQ.length + informationQ.length + decisionQ.length + structureQ.length}
+            
           </div>
         )}
         {qIndex >= 32 && (
@@ -275,7 +316,7 @@ const AssessmentQuestions = () => {
           </div>
         )}
         <div className="gauge-container">
-          <Stack direction={{ xs: 'row', md: 'row' }} spacing={{ xs: .2, md: -30 }}>
+          <Stack direction={{ xs: 'row', md: 'row' }} spacing={{}}>
             <Gauge
               width={100}
               height={100}
@@ -314,7 +355,7 @@ const AssessmentQuestions = () => {
             />
           </Stack>
         </div>
-        <div className="question">
+        <div className={`question ${isFading ? 'fade-out' : ''}`}>
           {qIndex < fourth && proceedAssessment()}
         </div>
         <div className="answers-container">
@@ -381,8 +422,9 @@ const AssessmentQuestions = () => {
             </Button>
           )}
         </div>
-      </div>
+      </Paper>
     </div>
+    </ThemeProvider>
   );
 };
 
