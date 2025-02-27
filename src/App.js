@@ -1,25 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import LoginSignup from './Components/LoginSignup/LoginSignup';
 import LoginSignin from './Components/LoginSignin/LoginSignin';
 import PITest from './Components/PersonalInformation/PITest';
 import Intro from './Components/Disclaimer/Intro';
 import AssessmentQuestions from './Components/Assessment/AssessmentQuestions';
 import AssessmentResult from './Components/AssessmentResult/AssessmentResult';
+import { AnimatePresence } from 'framer-motion';
 
 
 function App() {
+  const location = useLocation();
   return (
     <div className="App">
-      <Routes> {/* Define routes for different pages */}
-        <Route path="/signup" element={<LoginSignup />} /> {/* Route for Login/Signup page */}
-        <Route path="/" element={<LoginSignin />} /> {/* Route for Sign In page */}
-        <Route path="/PersonalInfo" element={<PITest />} />
-        <Route path="/Disclaimer" element={<Intro />} />
-        <Route path="/AssessmentQuestions" element={<AssessmentQuestions />} />
-        <Route path="/AssessmentResult" element={<AssessmentResult />} /> {/* Add AssessmentResult route */}
-      </Routes>
+      <AnimatePresence mode='wait'>
+        <Routes location={location} key={location.pathname}> {/* Define routes for different pages */}
+          <Route path="/signup" element={<LoginSignup currentPath={location.pathname}/>} /> {/* Route for Login/Signup page */}
+          <Route path="/" element={<LoginSignin currentPath={location.pathname}/>} /> {/* Route for Sign In page */}
+          <Route path="/PersonalInfo" element={<PITest />} />
+          <Route path="/Disclaimer" element={<Intro />} />
+          <Route path="/AssessmentQuestions" element={<AssessmentQuestions />} />
+          <Route path="/AssessmentResult" element={<AssessmentResult />} /> {/* Add AssessmentResult route */}
+        </Routes>
+      </AnimatePresence>
     </div>
   );
 }

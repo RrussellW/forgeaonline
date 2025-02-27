@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import './LoginSignup.css';
 import { Paper, TextField, Button, Typography, CircularProgress, Tooltip, Grid2, Divider } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../../firebase';
 import { doc, setDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { motion } from 'framer-motion';
 
 const darkTheme = createTheme({
     palette: {
@@ -20,7 +21,48 @@ const darkTheme = createTheme({
     },
   });
 
+  function PageWrapper({children}) {
+      return(
+        <motion.div
+          initial={{opacity: 0, transition:{duration: 0.4}}}
+          animate={{opacity: 1, transition:{duration: 0.4, delay:0.8} }}
+          exit={{opacity: 0, transition:{duration: 0.2}}}
+        >
+          {children}
+        </motion.div>
+      )
+    }
+  //Grey
+  function PageWrapperLR({children}) {
+        return(
+          <motion.div
+            initial={{opacity: 0, x:0, transition:{}}}
+            animate={{opacity: 1, x:0, transition:{delay:1.2}}}
+            exit={{opacity: 0, x:0, transition:{}}}
+          >
+            {children}
+          </motion.div>
+        )
+      }
+    //Gradient
+    function PageWrapperRL({children}) {
+      return(
+        <motion.div
+          initial={{opacity: 1, x:400, rotate:180, transition: {}}}
+          animate={[
+            {rotate:0, transition:{duration: 0.6}},
+            {backgroundImage:'white',x:0, transition: { delay: 0.6 }}
+          ]}
+          exit={{opacity: 1, x:0, transition: { }}}
+        >
+          {children}
+        </motion.div>
+      )
+    }
+
 const LoginSignup = () => {
+
+
     const [disabled, setDisabled] = useState(false);
     const [formData, setFormData] = useState({
         studentId: '',
@@ -101,13 +143,15 @@ const LoginSignup = () => {
     };
 
     return (
-        
             <div className="LoginSignup">
                 <Grid2 container spacing={0} direction="row" className="MainGridContainer" columnGap={0}>
                     <ThemeProvider theme={darkTheme}>
                     <CssBaseline />
+                    
                     <Grid2 className="GridSignin">
+                        <PageWrapperRL>
                         <Paper elevation={24} className="paperContainerLeft" >
+                            <PageWrapper>
                         <Typography variant="h5" className="typographyHeader" color='white' marginTop={7}>
                             <strong>Welcome to Forgea</strong>
                         </Typography>
@@ -123,18 +167,27 @@ const LoginSignup = () => {
                             <Button variant='outlined' color='white' onClick={() => navigate('/')} className="buttonRedirect">
                                 Sign In
                             </Button>
-                        </div></Paper>
+                        </div>
+                        </PageWrapper>
+                        
+                        </Paper>
+                        </PageWrapperRL>
                                             
                     </Grid2>
+                    
                     </ThemeProvider>
+                    
                     <Grid2>
                         <ThemeProvider theme={darkTheme}>
                         <CssBaseline />
+                        <PageWrapperLR>
                         <Paper elevation={24} className="paperContainerRight">
+                            <PageWrapper>
                             <Typography variant="h6" className="typographyHeader">
                                 <strong className='strongPurple'>Create</strong> an Account
                             </Typography>
                             <form onSubmit={handleSubmit}>
+                            <PageWrapper>
                                 <div className="inputField">
                                     <Tooltip title="Example Student ID: 11-1111-111" arrow>
                                     <TextField
@@ -164,6 +217,7 @@ const LoginSignup = () => {
                                         className="textFieldRoot"
                                     />
                                 </div>
+                                </PageWrapper>
                                 <div className="inputField">
                                     <TextField
                                         variant="filled"
@@ -187,7 +241,9 @@ const LoginSignup = () => {
                                     {!disabled ? 'Sign Up' : <CircularProgress color="inherit" size="30px" />}
                                 </Button>
                             </form>
+                            </PageWrapper>
                         </Paper>
+                        </PageWrapperLR>
                         </ThemeProvider>
                     </Grid2>
                 </Grid2>
