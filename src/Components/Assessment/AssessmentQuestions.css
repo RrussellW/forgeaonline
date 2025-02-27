@@ -97,6 +97,7 @@
     /* Answers section styles */
     .answers {
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
         width: 100%;
@@ -128,7 +129,6 @@
         display: flex;
         justify-content: center; /* Center the buttons */
         align-items: center;
-        width: fit-content;
     }
     
     /* Styling for the circular buttons with varying sizes */
