@@ -138,7 +138,7 @@ const LoginSignin = () => {
                         type: 1,
                     };
                     await setDoc(doc(db, "Users", userId), dataMobile, { merge: true });
-                }
+                }       
                 console.log('Login successful');
                 setDisabled(false);
                 navigate('/Disclaimer');

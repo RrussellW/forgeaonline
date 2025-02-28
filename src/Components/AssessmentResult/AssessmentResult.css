@@ -1,59 +1,70 @@
 /* Assessment container styles */
-.assessment-container {
-  margin-top: 50px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50px;
-  padding: 30px;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent background */
-  backdrop-filter: blur(10px); /* Adds a blurred background effect */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centers content horizontally */
-  justify-content: center; /* Centers content vertically */
-  height: auto; /* Adjusts based on content */
-}
+.assessment-resulttop{
+  background-color: #1E1E1E; /* Match intro.css background */
+  background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
 
-.typographyHeaderAR {
-  font-family: 'Inter', sans-serif;
-  text-align: center;
-  margin-bottom: 0px;
-}
-
-/* Typography styles */
-.chart-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333; /* Dark grey color */
-  font-weight: 500;
-}
-
-/* Responsive container for the chart */
-.chart-container {
-  width: 100%;
-  height: 400px; /* Ensure there's enough space for the chart */
-  margin-top: 20px; /* Adds some space between title and chart */
-  display: flex;
-  justify-content: center; /* Centers chart */
-}
-
-/* Responsive styling for smaller devices */
-@media (max-width: 600px) {
   .assessment-container {
-    padding: 20px;
-    max-width: 90%;
+    margin-top: 50px;
+    max-width: 500px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    padding: 30px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px); /* Adds a blurred background effect */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+    justify-content: center; /* Centers content vertically */
+    height: fit-content; /* Adjusts based on content */
   }
 
+  .typographyHeaderAR {
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    margin-bottom: 0px;
+  }
+
+  /* Typography styles */
   .chart-title {
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
   }
 
+  /* Responsive container for the chart */
   .chart-container {
-    height: 300px; /* Adjust chart height for smaller screens */
+    width: 100%;
+    height: 400px; /* Ensure there's enough space for the chart */
+    margin-top: 20px; /* Adds some space between title and chart */
+    display: flex;
+    justify-content: center; /* Centers chart */
+  }
+
+  /* Responsive styling for smaller devices */
+  @media (max-width: 600px) {
+    .assessment-container {
+      padding: 25px;
+      max-width: 90%;
+    }
+
+    .chart-title {
+      font-size: 16px;
+    }
+
+    .chart-container {
+      height: 300px; /* Adjust chart height for smaller screens */
+    }
   }
 }

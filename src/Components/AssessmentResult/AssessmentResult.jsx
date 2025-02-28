@@ -1,10 +1,31 @@
 import React, { useState, useEffect } from 'react';
 //import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Typography, CircularProgress} from '@mui/material';
+import { Paper, Typography, CircularProgress} from '@mui/material';
 import './AssessmentResult.css'; // Import the CSS file
 import { db } from '../../firebase';
 import { getAuth, onAuthStateChanged  } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    success: {
+      main: '#81c784'
+    },
+    error: {
+      main: '#e57373'
+    }
+  },
+});
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
+
 const AssessmentResult = () => {
   const auth = getAuth();
   const [user, setUser] = useState({
@@ -178,7 +199,10 @@ const AssessmentResult = () => {
   }
 
   return (
-    <div className="assessment-container">
+    <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
+    <div className="assessment-resulttop">
+    <Paper elevation={24} className="assessment-container">
       {auth.currentUser != null && (<div>
         <Typography variant="h5" className="typographyHeaderAR">
                       Test Results
@@ -213,10 +237,10 @@ const AssessmentResult = () => {
           <h3>{traitData[selectedLetter]?.dominant}: {traitData[selectedLetter]?.value}%</h3>
           <p>{descriptions[traitData[selectedLetter]?.dominant]}</p>
 
-          <h4 style={{ color: 'gray' }}>Other Trait: {traitData[selectedLetter]?.inverse} ({traitData[selectedLetter]?.inverseValue}%)</h4>
-          <p style={{ color: 'gray' }}>{descriptions[traitData[selectedLetter]?.inverse]}</p>
+          <h4 style={{ color: '#999999' }}>Other Trait: {traitData[selectedLetter]?.inverse} ({traitData[selectedLetter]?.inverseValue}%)</h4>
+          <p style={{ color: '#999999' }}>{descriptions[traitData[selectedLetter]?.inverse]}</p>
         </div>
-        <p style={{ fontSize: '12px', color: 'gray', textAlign: 'center' }}>
+        <p style={{ fontSize: '12px', color: '#999999', textAlign: 'center' }}>
           Please remember that these results are for informational purposes only and should not be considered as definitive or absolute.
         </p>
       </div>)}
@@ -226,7 +250,9 @@ const AssessmentResult = () => {
           <CircularProgress color="success" />
         </div>
       )}
+    </Paper>
     </div>
+    </ThemeProvider>
   );
 };
 
