@@ -271,7 +271,7 @@ const AssessmentResult = () => {
       <CssBaseline />
       <AnimatePresence>
       <div className='assessment-transition'>
-        <Paper elevation={1} className='container-loading'>
+        <Paper elevation={1} style={{ boxShadow: 'none' }} className='container-loading'>
           <LoadingSquares/>
         </Paper>
       </div>
