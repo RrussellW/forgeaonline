@@ -7,6 +7,8 @@ import { getAuth, onAuthStateChanged  } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { AnimatePresence, motion } from 'framer-motion';
+import LoadingSquares from '../Assets/LoadingSquares';
 
 const darkTheme = createTheme({
   palette: {
@@ -25,6 +27,64 @@ const lightTheme = createTheme({
     mode: 'light',
   },
 });
+
+function Blink({children}) {
+  return(
+    <motion.div
+      initial={{ scale: 0.8, y:100 ,opacity: 1}}
+      animate={{ scale: 1, y:0, opacity: 1}}
+      transition={{
+        duration: 0.4,
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function Transition1({children}) {
+  return(
+    <motion.div
+      initial={{y:5 ,opacity: 0}}
+      animate={{y:0, opacity: 1}}
+      transition={{
+        duration: 0.6,
+        delay:0.6
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function Transition2({children}) {
+  return(
+    <motion.div
+      initial={{y:5 ,opacity: 0}}
+      animate={{y:0, opacity: 1}}
+      transition={{
+        duration: 0.6,
+        delay:0.8
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function Transform({children}) {
+  return(
+    <motion.div
+      initial={{opacity: 1}}
+      animate={{opacity: 1}}
+      transition={{
+        duration: 0.4,
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 const AssessmentResult = () => {
   const auth = getAuth();
@@ -63,7 +123,10 @@ const AssessmentResult = () => {
       } catch (error) {
         alert("Error fetching data: " + error.message);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2500);
+        
       }
     }
   };
@@ -195,13 +258,33 @@ const AssessmentResult = () => {
   // Button colors for visual appeal
   const buttonColors = ['#F8F1AD', '#EDACA3', '#E199C8', '#B78FD6'];
   if (loading) {
-    return <div className="assessment-container"><CircularProgress color="success" /></div>;
-  }
+    return (
+    //<ThemeProvider theme={darkTheme}>
+    //  <CssBaseline />
+    //  <div className='assessment-resulttop'>
+    //    <Paper className="assessment-container">
+    //      <CircularProgress color="success" />
+    //    </Paper>;
+    //  </div>
+    //</ThemeProvider>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <AnimatePresence>
+      <div className='assessment-transition'>
+        <Paper elevation={1} className='container-loading'>
+          <LoadingSquares/>
+        </Paper>
+      </div>
+      </AnimatePresence>
+    </ThemeProvider>
+    )
+  } else
 
   return (
     <ThemeProvider theme={darkTheme}>
     <CssBaseline />
     <div className="assessment-resulttop">
+    <Transform>
     <Paper elevation={24} className="assessment-container">
       {auth.currentUser != null && (<div>
         <Typography variant="h5" className="typographyHeaderAR">
@@ -212,34 +295,41 @@ const AssessmentResult = () => {
         {/* Personality Buttons */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
           {user.personalitySummary.split('').map((letter, index) => (
+            <Blink>
             <button
               key={letter}
               onClick={() => setSelectedLetter(letter)}
               style={{
-                backgroundColor: selectedLetter === letter ? '#564a61' : buttonColors[index % buttonColors.length],
+                backgroundColor: selectedLetter === letter ? 'transparent' : buttonColors[index % buttonColors.length],
                 color: selectedLetter === letter ? buttonColors[index % buttonColors.length] : '#333',
                 border: `6px solid ${buttonColors[index % buttonColors.length]}`,
-                borderRadius: '8px',
+                borderRadius: '10px',
                 padding: '10px 20px',
                 fontWeight: 'bold',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
+                transition: 'all 0.6s ease',
                 fontSize: '20px',
               }}
             >
               {letter}
             </button>
+            </Blink>
           ))}
         </div>
 
         {/* Trait Descriptions */}
+        
         <div style={{ marginBottom: '20px', textAlign: 'left', whiteSpace: 'pre-line' }}>
+        <Transition1>
           <h3>{traitData[selectedLetter]?.dominant}: {traitData[selectedLetter]?.value}%</h3>
           <p>{descriptions[traitData[selectedLetter]?.dominant]}</p>
-
+        </Transition1>
+        <Transition2>
           <h4 style={{ color: '#999999' }}>Other Trait: {traitData[selectedLetter]?.inverse} ({traitData[selectedLetter]?.inverseValue}%)</h4>
           <p style={{ color: '#999999' }}>{descriptions[traitData[selectedLetter]?.inverse]}</p>
+        </Transition2>
         </div>
+        
         <p style={{ fontSize: '12px', color: '#999999', textAlign: 'center' }}>
           Please remember that these results are for informational purposes only and should not be considered as definitive or absolute.
         </p>
@@ -251,6 +341,7 @@ const AssessmentResult = () => {
         </div>
       )}
     </Paper>
+    </Transform>
     </div>
     </ThemeProvider>
   );

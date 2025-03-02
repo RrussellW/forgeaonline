@@ -9,6 +9,7 @@ import { doc, setDoc, getDoc, collection, query, where, getDocs } from "firebase
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { motion } from 'framer-motion';
+import LoadingSquares from '../Assets/LoadingSquares';
 
 const darkTheme = createTheme({
     palette: {
@@ -239,6 +240,7 @@ const LoginSignup = () => {
                                     disabled={disabled}
                                 >
                                     {!disabled ? 'Sign Up' : <CircularProgress color="inherit" size="30px" />}
+                                    {/*!disabled ? 'Sign Up' : <LoadingSquares/>*/}
                                 </Button>
                             </form>
                             </PageWrapper>

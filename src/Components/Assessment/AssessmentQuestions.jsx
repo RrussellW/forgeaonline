@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { delay, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 
 const darkTheme = createTheme({
@@ -48,8 +48,24 @@ function Blink2({children}) {
     <motion.div
       initial={{y:-10 ,opacity: 0}}
       animate={{y:0, opacity: 1}}
+      exit={{y:120, scale: 0.7, }}
       transition={{
         duration: 0.2
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function PaperTransition({children}) {
+  return(
+    <motion.div
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
+      exit={{opacity:0}}
+      transition={{
+        duration: 0.4
       }}
     >
       {children}

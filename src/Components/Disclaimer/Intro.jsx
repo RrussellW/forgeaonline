@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { motion } from 'framer-motion';
 
 const darkTheme = createTheme({
     palette: {
@@ -25,6 +26,35 @@ const darkTheme = createTheme({
       mode: 'light',
     },
   });
+
+function Blink({children}) {
+  return(
+    <motion.div
+      initial={{ opacity: 0}}
+      animate={{ opacity: 1}}
+      exit={{ opacity: 0}}
+      transition={{
+        duration: 0.4,
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function Blink2({children}) {
+    return(
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0}}
+        animate={{ scale: 1, opacity: 1}}
+        transition={{
+          duration: 0.4,
+        }}
+      >
+        {children}
+      </motion.div>
+    )
+  }
 
 const Intro = () => {
     const [activeStep, setActiveStep] = React.useState(0);
@@ -103,6 +133,7 @@ const Intro = () => {
     return (
         <ThemeProvider theme={darkTheme}>
         <CssBaseline />
+        <Blink>
         <div className='intro'>
             <Paper elevation={24} className="paperContainerIntro">
                 <Typography variant="h5" className="typographyHeaderIntro" gutterBottom>
@@ -113,6 +144,7 @@ const Intro = () => {
                     Thank you for participating in this research study! Below is important information about the assessment.
                 </Typography>
 
+                <Blink2>
                 <Accordion className='AccordionIntro'
                     expanded={accordionExpanded}
                     sx={{ 
@@ -144,7 +176,7 @@ const Intro = () => {
                                   color: '#B78FD6', // Change the circle color
                                 },
                                 '& .Mui-active .MuiStepIcon-root': { 
-                                  color: '#E199C8', // Change color when active
+                                  color: '#B78FD6', // Change color when active
                                 },
                                 '& .Mui-completed .MuiStepIcon-root': { 
                                   color: '#F8F1AD', // Change color when step is completed
@@ -200,6 +232,7 @@ const Intro = () => {
                     </AccordionDetails>
                         
                 </Accordion>
+                </Blink2>
 
                 <Divider />
 
@@ -223,6 +256,7 @@ const Intro = () => {
             </Paper>
             <div>&#8203;</div>
         </div>
+        </Blink>
         </ThemeProvider>
     );
 };
