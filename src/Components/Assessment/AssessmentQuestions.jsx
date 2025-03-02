@@ -11,6 +11,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { motion } from 'framer-motion';
 
 
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -29,6 +30,7 @@ const lightTheme = createTheme({
   },
 });
 
+
 function Blink({children}) {
   return(
     <motion.div
@@ -43,19 +45,17 @@ function Blink({children}) {
   )
 }
 
-function Blink2({children}) {
-  return(
+function Blink2({ children, exitAnimation }) {
+  return (
     <motion.div
-      initial={{y:-10 ,opacity: 0}}
-      animate={{y:0, opacity: 1}}
-      exit={{y:120, scale: 0.7, }}
-      transition={{
-        duration: 0.2
-      }}
+      initial={{ y: -10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={exitAnimation ? { y: 120, scale: 0.7 } : {}}
+      transition={{ duration: 0.2 }}
     >
       {children}
     </motion.div>
-  )
+  );
 }
 
 function PaperTransition({children}) {
@@ -121,6 +121,15 @@ function Bounce3({children}) {
 }
 
 const AssessmentQuestions = () => {
+  const [isProceeding, setIsProceeding] = useState(false);
+
+  useEffect(() => {
+    if (isProceeding) {
+      const timeout = setTimeout(() => setIsProceeding(false), 400);
+      return () => clearTimeout(timeout);
+    }
+  }, [isProceeding]);
+
   const navigate = useNavigate();
   const [qIndex, setQIndex] = useState(0);
   const [firstT, setFirstT] = useState(0);
@@ -137,12 +146,10 @@ const AssessmentQuestions = () => {
   const [displayQuestion, setDisplayQuestion] = useState("");
 
   useEffect(() => {
-    setIsFading(true); 
-    const timeout = setTimeout(() => {
-      setDisplayQuestion(proceedAssessment()); 
-      setIsFading(false);
-    }, 200);
-
+    setDisplayQuestion(proceedAssessment()); 
+    setIsFading(true);
+    const timeout = setTimeout(() => setIsFading(false), 200);
+    
     return () => clearTimeout(timeout);
   }, [qIndex]);
 
@@ -252,6 +259,7 @@ const AssessmentQuestions = () => {
   };
 
   function handleBack() {
+    setIsProceeding(false);
     if (qIndex > 0) {
       setQIndex((prev) => prev - 1);
       if (qIndex <= first) {
@@ -273,6 +281,7 @@ const AssessmentQuestions = () => {
   };
 
   function proceedResults() {
+    setIsProceeding(true);
     extroversion = 0;
     introversion = 0;
     sensing = 0;
@@ -361,6 +370,7 @@ const AssessmentQuestions = () => {
   const saveData = async (data) => {
     try {
           await setDoc(doc(db, "Dataset", auth.currentUser.email.replace("@forgea.com", "")), data, { merge: true });
+          setIsProceeding(true);
           navigate('/AssessmentResult');
         } catch (error) {
             console.log(error);
@@ -407,7 +417,7 @@ const AssessmentQuestions = () => {
             Finished Assessment
           </div>
         )}
-        <Blink2 className="gauge-container">
+        <Blink2 className="gauge-container" exitAnimation={isProceeding}>
           <Stack direction={{ xs: 'row', md: 'row' }} spacing={{}}>
             <Gauge
               width={100}

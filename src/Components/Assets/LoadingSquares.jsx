@@ -1,15 +1,32 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from "react"
 
+
 export default function LoadingSquares() {
-    const [order, setOrder] = useState(initialOrder)
+    const [loading, setLoading] = useState(true);
+    const [order, setOrder] = useState(initialOrder);
 
     useEffect(() => {
-        const timeout = setTimeout(() => setOrder(shuffle(order)), 400)
-        //setTimeout(() => setOrder(initialOrder), 1200)
-        setTimeout(() => setOrder(initialOrder), 2401)
-        return () => clearTimeout(timeout)
-    }, [order])
+        let shuffleInterval;
+        let stopShufflingTimeout;
+
+        if (loading) {
+            shuffleInterval = setInterval(() => {
+                setOrder(shuffle(order));
+            }, 400);
+
+            stopShufflingTimeout = setTimeout(() => {
+                clearInterval(shuffleInterval);
+                setOrder(initialOrder);
+                setLoading(false);
+            }, 2400);
+        }
+
+        return () => {
+            clearInterval(shuffleInterval);
+            clearTimeout(stopShufflingTimeout);
+        };
+    }, [loading]);
 
     return (
         <ul style={container}>
