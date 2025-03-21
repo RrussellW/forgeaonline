@@ -94,7 +94,7 @@ const Intro = () => {
         {
             label: 'Purpose of the Study',
             description: `This study investigates the relationship between personality traits 
-            (measured by the Myers-Briggs Type Indicator or MBTI) and academic performance among 
+            (measured by the Myers-Briggs Type Indicator or MBTI based personality assessmnet) and academic performance among 
             Computer Science (CS) and Information Technology (IT) students. By participating, 
             you will help us develop predictive models using machine learning to enhance academic 
             guidance tools for future students.`,
@@ -102,9 +102,10 @@ const Intro = () => {
         {
             label: 'What You Will Do',
             description:
-            `You will complete an online MBTI personality assessment, which takes approximately 10-15 minutes.
-             The assessment involves answering questions about your preferences and behaviors. No sensitive 
-             or personally identifiable information will be collected, and all responses will remain anonymous.`,
+            `You will complete an online MBTI based personality assessment, which takes approximately 10-15 minutes.
+             The assessment involves answering questions about your preferences and behaviors. When the data will be
+             utilized for research study, no sensitive or personally identifiable information will be included, 
+             and all responses will remain anonymous.`,
         },
         {
             label: 'Your Participation is Voluntary',
@@ -114,9 +115,9 @@ const Intro = () => {
         },
         {
             label: 'Risks',
-            description: `There are no significant risks associated with this study. The MBTI assessment consists of 
-            general questions about your preferences and behaviors. If you feel uncomfortable at any point, you may skip
-            questions or leave the assessment.`,
+            description: `There are no significant risks associated with this study. The MBTI based assessment consists of 
+            general questions about your preferences and behaviors. If you feel uncomfortable at any point, you may 
+            leave the assessment.`,
         },
         {
             label: 'Benefits',
@@ -125,8 +126,11 @@ const Intro = () => {
         },
         {
             label: 'Confidentiality',
-            description: `Your responses will be kept strictly confidential. All data will be anonymized, 
-            stored securely, and reported in aggregate form to ensure individual responses cannot be identified.`,
+            description: `Your responses will be kept strictly confidential. All data will be anonymised, stored securely, 
+            and reported in aggregate form to ensure individual responses cannot be identified. 
+            As part of this study, your Student ID will be used externally to retrieve your Grade Point Average (GPA) 
+            from institutional records. However, no personally identifiable information will be included in the final analysis, 
+            and all data will be handled in accordance with ethical research standards.`,
         },
       ];
 
