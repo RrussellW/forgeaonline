@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './Components/Assets/forgeaLogo.png';
 import './App.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import LoginSignup from './Components/LoginSignup/LoginSignup';
@@ -7,6 +7,7 @@ import PITest from './Components/PersonalInformation/PITest';
 import Intro from './Components/Disclaimer/Intro';
 import AssessmentQuestions from './Components/Assessment/AssessmentQuestions';
 import AssessmentResult from './Components/AssessmentResult/AssessmentResult';
+import SidePanel from './Components/Assets/SidePanel';
 import { AnimatePresence } from 'framer-motion';
 
 

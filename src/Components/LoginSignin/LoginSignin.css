@@ -101,6 +101,21 @@
         margin-bottom: 12px;
     }
 
+    .buttonDemo {
+        padding: 12px 32px;
+        border-radius: 12px;
+        text-transform: none; /* Keeps text in sentence case */
+        margin-bottom: 12px;
+        margin-top: 12px;
+        box-shadow: none;
+    }
+    .buttonDemo:hover {
+        /*filter: contrast(1.0); /* Custom hover color */
+        filter: brightness(1.2);
+        background-image: linear-gradient(80deg,#B78FD6,#E199C8,#EDACA3, #F8F1AD);
+        color:#444444;
+    }
+
     .buttonSignup:hover {
         /*filter: contrast(1.0); /* Custom hover color */
         /*filter: contrast(1.9);*/

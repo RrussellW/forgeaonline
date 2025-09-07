@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 //import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Paper, Typography, CircularProgress} from '@mui/material';
+import { Paper, Typography, CircularProgress, Divider} from '@mui/material';
 import './AssessmentResult.css'; // Import the CSS file
 import { db } from '../../firebase';
 import { getAuth, onAuthStateChanged  } from 'firebase/auth';
@@ -290,6 +290,8 @@ const AssessmentResult = () => {
         <Typography variant="h5" className="typographyHeaderAR">
                       Test Results
         </Typography>
+        <br/>
+        <Divider />
         <h2 className="chart-title">Your Personality Type is:</h2>
 
         {/* Personality Buttons */}
@@ -299,6 +301,7 @@ const AssessmentResult = () => {
             <button
               key={letter}
               onClick={() => setSelectedLetter(letter)}
+              className='personality-button'
               style={{
                 backgroundColor: selectedLetter === letter ? 'transparent' : buttonColors[index % buttonColors.length],
                 color: selectedLetter === letter ? buttonColors[index % buttonColors.length] : '#333',
@@ -317,11 +320,17 @@ const AssessmentResult = () => {
           ))}
         </div>
 
+        <Divider> 
+          <p style={{ fontSize: '12px', color: '#999999', textAlign: 'center' }}>
+            Click on the letters to find out what they mean!
+          </p>
+        </Divider>
+
         {/* Trait Descriptions */}
         
         <div style={{ marginBottom: '20px', textAlign: 'left', whiteSpace: 'pre-line' }}>
         <Transition1>
-          <h3>{traitData[selectedLetter]?.dominant}: {traitData[selectedLetter]?.value}%</h3>
+          <h3 style={{ fontSize: '24px', marginBottom: '10px'}}>{traitData[selectedLetter]?.dominant}: {traitData[selectedLetter]?.value}%</h3>
           <p>{descriptions[traitData[selectedLetter]?.dominant]}</p>
         </Transition1>
         <Transition2>
@@ -330,6 +339,7 @@ const AssessmentResult = () => {
         </Transition2>
         </div>
         
+        <Divider />
         <p style={{ fontSize: '12px', color: '#999999', textAlign: 'center' }}>
           Please remember that these results are for informational purposes only and should not be considered as definitive or absolute.
         </p>

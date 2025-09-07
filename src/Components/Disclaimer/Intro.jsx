@@ -240,9 +240,9 @@ const Intro = () => {
 
                 <Divider />
 
-                <Typography variant="body1" paragraph style={{ marginTop: '2rem' }}>
+                <p style={{ fontSize: '12px', color: '#999999', textAlign: 'center' }}>
                     By proceeding, you acknowledge that you have read and understood this consent form and agree to participate in the study.
-                </Typography>
+                </p>
 
                 
 

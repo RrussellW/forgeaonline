@@ -63,6 +63,11 @@
     margin-bottom: 0px;
   }
 
+  .personality-button:hover {
+    filter: brightness(1.2);
+    cursor: pointer;
+  }
+
   /* Typography styles */
   .chart-title {
     font-family: 'Inter', sans-serif;

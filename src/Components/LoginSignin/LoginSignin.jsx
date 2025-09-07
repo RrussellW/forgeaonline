@@ -255,6 +255,16 @@ const LoginSignin = () => {
                                 Sign Up
                             </Button>
                         </div>
+                        <br/>
+                        <br/>
+                        <Divider>
+                            <Typography variant="body2"  color='#F8F1AD'>
+                                Research is no longer in progress
+                            </Typography>
+                        </Divider>
+                            <Button variant='contained' color='dark.primary' onClick={() => navigate('/Disclaimer')} className="buttonDemo">
+                                Proceed to Demo
+                            </Button>
                         </PageWrapper>
                         </Paper>
                         </PageWrapperLR>
